@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="css/signup.css">
+</head>
+<body>
+    <div class="navbar">
+        <div class="icon">
+            <img src="loggg.png" alt="Logo" class="logo"> 
+        </div>
+        <div class="menu">
+            <ul>
+                <li><a href="userprofile.html"><i class="fas fa-user"></i> USER PROFILE</a></li>
+                <li><a href="aboutus.html">ABOUT US</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropbtn">QUERIES</a>
+                    <div class="dropdown-content">
+                        <a href="#">Query Type 1</a>
+                        <a href="#">Query Type 2</a>
+                        <a href="#">Query Type 3</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="container">
+        <h1>Create Account</h1>
+        <form action="/submit" method="post">
+            <div class="input-group">
+                <div class="input-field">
+                    <label for="first-name">First Name</label>
+                    <input type="text" id="first-name" name="first-name" required>
+                </div>
+                <div class="input-field">
+                    <label for="last-name">Last Name</label>
+                    <input type="text" id="last-name" name="last-name" required>
+                </div>
+            </div>
+            <div class="input-field">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="input-group">
+                <div class="input-field">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <div class="input-field">
+                    <label for="confirm-password">Confirm Password</label>
+                    <input type="password" id="confirm-password" name="confirm-password" required>
+                </div>
+            </div>
+            <button type="submit">Sign Up</button>
+        </form>
+        <p class="login-link">Already have an account? <a href="login.html">Log In</a></p> <!-- Updated link -->
+    </div>    
+    <div class="content">
+        <img src="jeepneys-in-manila-philippines.jpg" alt="Cover Image" class="cover-image">
+    </div>
+    <footer>
+        <p>&copy; 2024 Local Public Transport Route Plan Manual</p>
+    </footer>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
+</body>
+</html>

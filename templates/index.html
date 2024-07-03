@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head> 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Local Public Transport Manual</title>
+    <link rel="stylesheet" href="{% static 'main.css' %}">
+</head>
+<body> 
+    <div class="main">
+        <div class="navbar">
+            <div class="icon">
+                <h2 class="logo">WELCOME</h2>
+            </div>
+            <div class="menu">
+                <ul>
+                    <li class="hovercolor">
+                        <a href="userprofile.html">
+                            <i class="fas fa-user"></i> USER PROFILE
+                        </a>
+                    </li>
+                    <li><a href="aboutus.html">ABOUT US</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropbtn">QUERIES</a>
+                        <div class="dropdown-content">
+                            <a href="#">Query Type 1</a>
+                            <a href="#">Query Type 2</a>
+                            <a href="#">Query Type 3</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="content">
+            <img src="jeepneys-in-manila-philippines.jpg" alt="Cover Image" class="cover-image">
+            <div class="centered-text">
+                <h1>LOCAL PUBLIC TRANSPORT <br><span>ROUTE PLAN MANUAL FORM</span></h1>
+                <button class="login-button" onclick="window.location.href='login.html';">Login</button>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <p>&copy; 2024 Local Public Transport Route Plan Manual</p>
+    </footer>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
+</body>
+</html>
