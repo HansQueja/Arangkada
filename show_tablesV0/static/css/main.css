@@ -1,0 +1,80 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+::-webkit-scrollbar {
+    width: 0.9em
+}
+
+::-webkit-scrollbar-track {
+    background-color: rgba(255, 255, 255, 0);
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: rgb(255, 255, 255, 0.3);
+    border-radius: 100vw;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: rgb(255, 255, 255, 0.7);
+}
+
+
+body{
+    background-color: #252525;
+    font-family: "Poppins";
+    color:aliceblue;
+    overflow: hidden;
+}
+
+.container{
+    scroll-snap-type: y mandatory;
+    overflow-y: scroll;
+    height: 100vh;
+
+}
+
+section{
+    height: 100vh;
+    width: 75vw;
+    scroll-snap-align: start;
+    overflow:auto;
+    margin: 0 auto;
+    z-index: 0;
+}
+
+table{
+    margin: 20px auto;
+    min-width: 60vw;
+    text-align: center;
+}
+
+th{
+    font-weight: bold;
+    background-color: #161616;
+}
+
+td, th{
+    padding: 5px;
+}
+
+.vehicle{
+    background-color: rgba(255, 255, 255, 0);
+    font-size: 0.45em;
+}
+
+.components{
+    background-color: rgba(255, 255, 255, 0);
+    font-size: 0.5em;
+}
+
+.operator{
+    background-color: rgba(255, 255, 255, 0);
+    font-size: 0.5em;
+}
+
+.route{
+    background-color: rgba(255, 255, 255, 0);
+    font-size: 0.5em;
+}
