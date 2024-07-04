@@ -1,6 +1,6 @@
 # arangkada
 
-# SETTING UP DJANGO
+## SETTING UP DJANGO
 
 ### To setup Django in your local device, there are prerequisites:
 1. Install Python in your device (https://www.python.org/downloads/).
