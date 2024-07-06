@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-{% load static %}
 <html lang="en">
 <head>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -8,17 +7,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Page</title>
-    <link rel="stylesheet" href="{% static 'login.css' %}">
+    <link rel="stylesheet" href="css/login.css">
 </head>
 <body>
     <div class="navbar">
         <div class="icon">
-            <img src="{% static 'images/loggg.png' %}" alt="Logo" class="logo"> 
+            <img src="loggg.png" alt="Logo" class="logo"> 
         </div>
         <div class="menu">
             <ul>
                 <li><a href="userprofile.html"><i class="fas fa-user"></i> USER PROFILE</a></li>
-                <li><a href="{% url 'about' %}">ABOUT US</a></li>
+                <li><a href="aboutus.html">ABOUT US</a></li>
                 <li class="dropdown">
                     <a href="#" class="dropbtn">QUERIES</a>
                     <div class="dropdown-content">
@@ -38,10 +37,10 @@
             <input type="password" name="password" placeholder="Password" required><br>
             <input type="submit" value="Login">
         </form>
-        <p>No Account? <a href="{% url 'signup' %}">Sign Up</a></p>
+        <p>No Account? <a href="signup.html">Sign Up</a></p>
     </div>
     <div class="content">
-        <img src="{% static 'images/jeepneys-in-manila-philippines.jpg' %}" alt="Cover Image" class="cover-image">
+        <img src="jeepneys-in-manila-philippines.jpg" alt="Cover Image" class="cover-image">
     </div>
     <footer>
         <p>&copy; 2024 Local Public Transport Route Plan Manual</p>
