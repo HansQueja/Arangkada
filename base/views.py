@@ -223,7 +223,42 @@ def moderate(request):
     else:
         return redirect('login') 
 
+def complex(request):
 
+    if 'user_id' in request.session:
+
+        name = request.session['first_name']
+
+        if request.method == "POST":
+
+            query = request.POST.get("options")
+            conn = sqlite3.connect('transport.db')
+            cur = conn.cursor()
+
+            if 'mod-1' == query:
+                cur.execute("SELECT o.operator_number, o.name_of_operator, o.no_of_operational_units, ROUND(SUM(v.revenue), 2) 'Total revenue' FROM operators o JOIN vehicles v ON o.operator_number = v.operator_number GROUP BY o.operator_number ORDER BY 'Total revenue' DESC;")
+                vehicles = cur.fetchall()
+                conn.close()
+                return render(request, "complex.html", {"mod_1": vehicles, "name":name})
+
+            if 'mod-2' == query:
+                operator_name = request.POST.get("operator_name")
+                cur.execute("SELECT o.operator_number, r.route_id, r.start_route, r.end_route FROM operators o JOIN vehicles v ON v.operator_number = o.operator_number JOIN routes r ON r.route_id = v.route_id WHERE o.name_of_operator = (?);", (operator_name,))
+                routes = cur.fetchall()
+                conn.close()
+                return render(request, "complex.html", {"mod_2": routes, "name":name})
+            
+            if 'mod-3' == query:
+                cur.execute("SELECT v.plate_number, v.revenue,  ROUND((c.brake_system + c.clutch + c.tires + c.battery + c.bearings + c.belt + c.fuel_filter + c.piston_ring + c.lights + c.body + c.electrical_system), 2) 'Total maintenance cost' FROM vehicles v JOIN components c ON c.model = v.model ORDER BY revenue DESC;")
+                vehicles = cur.fetchall()
+                conn.close()
+                return render(request, "complex.html", {"mod_3": vehicles, "name":name})    
+
+
+        return render(request, "complex.html", {"name":name})
+
+    else:
+        return redirect('login') 
 
 def userprofile(request):
     return render(request, "userprofile.html")

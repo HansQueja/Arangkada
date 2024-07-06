@@ -9,6 +9,7 @@ urlpatterns = [
     path('showtables/', views.showtables, name="showtables"),
     path('basic/', views.basic, name="basic"),
     path('moderate/', views.moderate, name="moderate"),
+    path('complex/', views.complex, name="complex"),
     path('userprofile/', views.userprofile, name="userprofile"),
     path('login/userprofile/', views.userprofile, name="userprofile"),
     path('logout', views.logout, name="logout")
