@@ -19,8 +19,8 @@ def get_tables():
     return vehicles, components, operators, routes
 
 
-def get_record(table):
-    match table: #getting input for each attr for a specific table
+def get_record(table): #getting input for each attr for a specific table and returns it as a tuple
+    match table:
         case 'components': 
             model = request.form.get('model')
             brake_system = request.form.get('brake_system')
@@ -67,7 +67,7 @@ def get_record(table):
     return values
 
 
-def create_record(table, values):
+def create_record(table, values): #setting values to the db with a query
     conn = sqlite3.connect('transportV1.db')
     conn.row_factory = sqlite3.Row #allows the db to be referenced by column names
     c = conn.cursor()
@@ -89,7 +89,7 @@ def create_record(table, values):
 
 
 @app.route('/', methods=['POST', 'GET'])
-def crud():
+def crud(): #for directory
     return render_template('crud.html')
 
 
@@ -107,7 +107,7 @@ def create():
         try:
             create_record(table, values)
             return redirect('/crud/create')
-        except sqlite3.IntegrityError as e:
+        except sqlite3.IntegrityError as e: #not sure how to handle errors concerning duplicate pk's
             return f'Error with {e}'
         except Exception as e:
             return f'{e}'
@@ -124,6 +124,8 @@ def update():
 @app.route('/crud/delete', methods=['POST', 'GET'])
 def delete():
     return render_template('delete.html')
+
+#i'll add def read(); later
 
 if __name__ == "__main__":
     app.run(debug=True)
