@@ -36,7 +36,6 @@ def showtables(request):
                                               "operators": operators,
                                               "routes": routes})
 
-
 # QUERIES BELOW
 
 def basic(request):
@@ -61,3 +60,7 @@ def basic(request):
         
 
     return render(request, "basic.html")
+
+
+def userprofile(request):
+    return render(request, "userprofile.html")

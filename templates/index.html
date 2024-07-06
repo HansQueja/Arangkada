@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="en">
 <head>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -7,7 +8,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Local Public Transport Manual</title>
-    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="{% static 'main.css' %}">
 </head>
 <body>
     <div class="main">
@@ -18,11 +19,11 @@
             <div class="menu">
                 <ul>
                     <li class="hovercolor">
-                        <a href="userprofile.html">
+                        <a href="{% url 'userprofile' %}">
                             <i class="fas fa-user"></i> USER PROFILE
                         </a>
                     </li>
-                    <li><a href="aboutus.html">ABOUT US</a></li>
+                    <li><a href="{% url 'about' %}">ABOUT US</a></li>
                     <li class="dropdown">
                         <a href="#" class="dropbtn">QUERIES</a>
                         <div class="dropdown-content">
@@ -30,14 +31,14 @@
                             <a href="#">Query Type 2</a>
                             <a href="#">Query Type 3</a>
                             <a href="#">Show Tables</a>
-                            <a href="#">Show Tables</a>
+                            <a href="{% url 'basic' %}">Show Tables</a>
                         </div>
                     </li>
                 </ul>
             </div>
         </div>
         <div class="content">
-            <img src="jeepneys-in-manila-philippines.jpg" alt="Cover Image" class="cover-image">
+            <img src="{% static 'images/jeepneys-in-manila-philippines.jpg' %}" alt="Cover Image" class="cover-image">
             <div class="centered-text">
                 <h1>LOCAL PUBLIC TRANSPORT <br><span>ROUTE PLAN MANUAL FORM</span></h1>
                 <button class="login-button" onclick="window.location.href='login.html';">Login</button>
