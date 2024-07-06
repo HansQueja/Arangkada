@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head> 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Local Public Transport Manual</title>
+    <link rel="stylesheet" href="{% static 'main.css' %}">
+    <link rel="stylesheet" href="{% static 'table.css' %}">
+</head>
+<body> 
+    <div class="navbar">
+        <div class="icon">
+            <img src="{% static 'images/logo-5.png' %}" alt="Logo" class="logo-image">
+        </div>
+        <div class="menu">
+            <ul>
+                <li class="hovercolor">
+                    <a href="userprofile.html">
+                        <i class="fas fa-user"></i> USER PROFILE
+                    </a>
+                </li>
+                <li class="hovercolor"><a href="{% url 'home' %}">HOME</a></li>
+                <li><a href="{% url 'about' %}">ABOUT US</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropbtn">QUERIES</a>
+                    <div class="dropdown-content">
+                        <a href="{% url 'basic' %}">Basic Queries</a>
+                        <a href="#">Query Type 2</a>
+                        <a href="#">Query Type 3</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="basic-queries">
+        <br>
+        <br>
+        <br>
+        <h1>Basic Queries</h1>
+        <form method="POST">
+            {% csrf_token %}
+            <h2>Display Routes according to their Length</h2>
+            <input type="submit" value="Submit" name="route_length">
+        </form>
+
+        {% if routes_length %}
+        <div class='Content'> 
+            <div class="container">
+                <section class="route">
+                    <h1>Routes</h1>
+
+                    <table> 
+                        <tr>
+                            <th>Route ID</th>
+                            <th>Start Route</th>
+                            <th>End Route</th>
+                            <th>Route Length</th>
+                            <th>Base Fare</th>
+                            
+                        </tr>
+                        {% for row in routes_length %}
+                        <tr>
+                            <td>{{ row.0 }}</td>
+                            <td>{{ row.1 }}</td>
+                            <td>{{ row.2 }}</td>
+                            <td>{{ row.3 }}</td>
+                            <td>{{ row.4 }}</td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </section>
+            </div>
+        </div> 
+        {% endif %}
+
+        <form method="POST">
+            {% csrf_token %}
+            <h2>Display Routes according to Start and End Points</h2>
+            <input type="submit" value="Submit" name="route_end">
+        </form>
+
+        {% if routes_end %}
+        <div class='Content'> 
+            <div class="container">
+                <section class="route">
+                    <h1>Routes</h1>
+
+                    <table> 
+                        <tr>
+                            <th>Route ID</th>
+                            <th>Start Route</th>
+                            <th>End Route</th>
+                            <th>Route Length</th>
+                            <th>Base Fare</th>
+                            
+                        </tr>
+                        {% for row in routes_end %}
+                        <tr>
+                            <td>{{ row.0 }}</td>
+                            <td>{{ row.1 }}</td>
+                            <td>{{ row.2 }}</td>
+                            <td>{{ row.3 }}</td>
+                            <td>{{ row.4 }}</td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </section>
+            </div>
+        </div> 
+        {% endif %}
+    </div>
+</body>
+</html>

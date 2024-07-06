@@ -23,6 +23,7 @@
                             <i class="fas fa-user"></i> USER PROFILE
                         </a>
                     </li>
+                    <li class="hovercolor"><a href="{% url 'home' %}">HOME</a></li>
                     <li><a href="{% url 'about' %}">ABOUT US</a></li>
                     <li class="dropdown">
                         <a href="#" class="dropbtn">QUERIES</a>
@@ -30,8 +31,7 @@
                             <a href="{% url 'basic' %}">Basic Queries</a>
                             <a href="#">Query Type 2</a>
                             <a href="#">Query Type 3</a>
-                            <a href="#">Show Tables</a>
-                            <a href="{% url 'basic' %}">Show Tables</a>
+                            <a href="{% url 'showtables' %}">Show Tables</a>
                         </div>
                     </li>
                 </ul>
@@ -41,7 +41,7 @@
             <img src="{% static 'images/jeepneys-in-manila-philippines.jpg' %}" alt="Cover Image" class="cover-image">
             <div class="centered-text">
                 <h1>LOCAL PUBLIC TRANSPORT <br><span>ROUTE PLAN MANUAL FORM</span></h1>
-                <button class="login-button" onclick="window.location.href='login.html';">Login</button>
+                <a class="login-button" href="{% url 'login' %}">Login</a>
             </div>
         </div>
     </div>
