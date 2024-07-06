@@ -20,7 +20,7 @@
                 <ul>
                     <li class="hovercolor">
                         <a href="{% url 'userprofile' %}">
-                            <i class="fas fa-user"></i> USER PROFILE
+                            <i class="fas fa-user"></i> Hello, {{ name }}
                         </a>
                     </li>
                     <li class="hovercolor"><a href="{% url 'home' %}">HOME</a></li>
@@ -34,6 +34,7 @@
                             <a href="{% url 'showtables' %}">Show Tables</a>
                         </div>
                     </li>
+                    <li><a href="{% url 'logout' %}">LOGOUT</a></li>
                 </ul>
             </div>
         </div>
@@ -41,7 +42,9 @@
             <img src="{% static 'images/jeepneys-in-manila-philippines.jpg' %}" alt="Cover Image" class="cover-image">
             <div class="centered-text">
                 <h1>LOCAL PUBLIC TRANSPORT <br><span>ROUTE PLAN MANUAL FORM</span></h1>
+                {% if not name %}
                 <a class="login-button" href="{% url 'login' %}">Login</a>
+                {% endif %}
             </div>
         </div>
     </div>

@@ -1,17 +1,63 @@
 from django.shortcuts import render
 from django.contrib.auth.hashers import make_password, check_password
+from django.contrib.sessions.backends.db import SessionStore
+from django.shortcuts import redirect
+
 import sqlite3
 
 # Create your views here.
 def home(request):
-    return render(request, 'index.html')
+    if 'user_id' in request.session:
+        name = request.session['first_name']
+        return render(request, 'index.html', {"name":name})
+    else:
+        return redirect('login')
 
 def about(request):
-    return render(request, 'aboutus.html')
+    if 'user_id' in request.session:
+        name = request.session['first_name']
+        return render(request, 'aboutus.html', {"name":name})
+    else:
+        return redirect('login')
 
 def login(request):
 
+    if request.method == "POST":
+
+        conn = sqlite3.connect('users.db')
+        cur = conn.cursor()
+
+        email = request.POST.get("email")
+        password = request.POST.get("password")
+
+        cur.execute("SELECT * FROM users WHERE email = (?)", (email,))
+        account = cur.fetchone()
+
+        if account and check_password(password, account[4]):
+            
+            s = SessionStore()
+            s['user_id'] = account[0]
+            s['first_name'] = account[1]
+            s['last_name'] = account[2]
+            s['email'] = account[3]
+        
+            request.session = s
+            print(request.session)
+            conn.close()
+
+            return redirect('home')
+        else:
+            context = {"response":"Your email or password is incorrect. Please check your credentials."}
+            return render(request, "login.html", context)
+
+
     return render(request, 'login.html')
+
+
+def logout(request):
+    request.session.flush()
+    return redirect('login')
+
 
 def signup(request):
 
@@ -41,7 +87,8 @@ def signup(request):
             context = {"response":"Your password and confirm password doesn't match. Please try again."}
             return render(request, "signup.html", context)
 
-        cur.execute("INSERT INTO users VALUES (?, ?, ?, ?, ?)", (count + 1, first_name, last_name, email, make_password(password1),))
+        cur.execute("INSERT INTO users VALUES (?, ?, ?, ?, ?)", (count + 1, first_name, last_name, 
+                                                                 email, make_password(password1),))
         conn.commit()
         conn.close()
         return render(request, "login.html")
@@ -64,39 +111,53 @@ def get_tables():
     return vehicles, components, operators, routes
 
 def showtables(request):
-    vehicles, components, operators, routes = get_tables()
-    return render(request, "showtable.html", {"vehicles": vehicles, 
+    if 'user_id' in request.session:
+        name = request.session['first_name']
+        vehicles, components, operators, routes = get_tables()
+        return render(request, "showtable.html", {"vehicles": vehicles, 
                                               "components": components,
                                               "operators": operators,
-                                              "routes": routes})
-
+                                              "routes": routes,
+                                              "name": name})
+    else:
+        return redirect('login')
+    
 # QUERIES BELOW
 def basic(request):
 
-    if request.method == "POST":
-        query = request.POST.get("options")
-        conn = sqlite3.connect('transport.db')
-        cur = conn.cursor()
+    if 'user_id' in request.session:
 
-        if 'route_length' == query:
-            cur.execute("SELECT * FROM routes ORDER BY route_length;")
-            routes_length = cur.fetchall()
-            conn.close()
-            return render(request, "basic.html", {"routes_length": routes_length})
-        
-        if 'route_end' == query:
-            cur.execute("SELECT * FROM routes ORDER BY start_route, end_route;")
-            routes_end = cur.fetchall()
-            conn.close()
-            return render(request, "basic.html", {"routes_end": routes_end})
-        
-        if 'operators' == query:
-            cur.execute("SELECT * FROM operators ORDER BY name_of_operator;")
-            operators = cur.fetchall()
-            conn.close()
-            return render(request, "basic.html", {"operators": operators})        
+        name = request.session['first_name']
 
-    return render(request, "basic.html")
+        if request.method == "POST":
+
+            query = request.POST.get("options")
+            conn = sqlite3.connect('transport.db')
+            cur = conn.cursor()
+
+            if 'route_length' == query:
+                cur.execute("SELECT * FROM routes ORDER BY route_length;")
+                routes_length = cur.fetchall()
+                conn.close()
+                return render(request, "basic.html", {"routes_length": routes_length, "name":name})
+            
+            if 'route_end' == query:
+                cur.execute("SELECT * FROM routes ORDER BY start_route, end_route;")
+                routes_end = cur.fetchall()
+                conn.close()
+                return render(request, "basic.html", {"routes_end": routes_end, "name":name})
+            
+            if 'operators' == query:
+                cur.execute("SELECT * FROM operators ORDER BY name_of_operator;")
+                operators = cur.fetchall()
+                conn.close()
+                return render(request, "basic.html", {"operators": operators, "name":name})        
+
+        return render(request, "basic.html", {"name":name})
+
+    else:
+        return redirect('login')
+   
 
 
 def userprofile(request):
