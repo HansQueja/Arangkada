@@ -14,7 +14,7 @@
     <div class="main">
         <div class="navbar">
             <div class="icon">
-                <h2 class="logo">WELCOME</h2>
+                <img src="{% static 'images/logo-5.png' %}" alt="Logo" class="logo-image">
             </div>
             <div class="menu">
                 <ul>
@@ -27,9 +27,10 @@
                     <li class="dropdown">
                         <a href="#" class="dropbtn">QUERIES</a>
                         <div class="dropdown-content">
-                            <a href="#">Query Type 1</a>
+                            <a href="{% url 'basic' %}">Basic Queries</a>
                             <a href="#">Query Type 2</a>
                             <a href="#">Query Type 3</a>
+                            <a href="#">Show Tables</a>
                         </div>
                     </li>
                 </ul>

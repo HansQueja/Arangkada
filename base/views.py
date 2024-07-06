@@ -31,7 +31,33 @@ def get_tables():
 
 def showtables(request):
     vehicles, components, operators, routes = get_tables()
-    return render(request, 'showtable.html', {"vehicles": vehicles, 
+    return render(request, "showtable.html", {"vehicles": vehicles, 
                                               "components": components,
                                               "operators": operators,
                                               "routes": routes})
+
+
+# QUERIES BELOW
+
+def basic(request):
+
+    if request.method == "POST":
+
+        if 'route_length' in request.POST:
+            conn = sqlite3.connect('transport.db')
+            cur = conn.cursor()
+            cur.execute("SELECT * FROM routes ORDER BY route_length;")
+            routes_length = cur.fetchall()
+            
+            return render(request, "basic.html", {"routes_length": routes_length})
+        
+        if 'route_end' in request.POST:
+            conn = sqlite3.connect('transport.db')
+            cur = conn.cursor()
+            cur.execute("SELECT * FROM routes ORDER BY start_route, end_route;")
+            routes_end = cur.fetchall()
+            
+            return render(request, "basic.html", {"routes_end": routes_end})
+        
+
+    return render(request, "basic.html")
