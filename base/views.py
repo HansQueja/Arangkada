@@ -157,7 +157,72 @@ def basic(request):
 
     else:
         return redirect('login')
-   
+
+def moderate(request):
+
+    if 'user_id' in request.session:
+
+        name = request.session['first_name']
+
+        if request.method == "POST":
+
+            query = request.POST.get("options")
+            conn = sqlite3.connect('transport.db')
+            cur = conn.cursor()
+
+            if 'mod-1' == query:
+                cur.execute("SELECT start_route, COUNT(*) count FROM routes GROUP BY start_route HAVING count > 1 ORDER BY count DESC;")
+                routes = cur.fetchall()
+                conn.close()
+                return render(request, "moderate.html", {"mod_1": routes, "name":name})
+            
+            if 'mod-2' == query:
+                cur.execute("SELECT manufacturer, COUNT(*) count FROM vehicles GROUP BY manufacturer ORDER BY count DESC;")
+                vehicles = cur.fetchall()
+                conn.close()
+                return render(request, "moderate.html", {"mod_2": vehicles, "name":name})
+            
+            if 'mod-3' == query:
+                cur.execute("SELECT vehicle_type, COUNT(*) count FROM vehicles GROUP BY vehicle_type ORDER BY count DESC;")
+                vehicles = cur.fetchall()
+                conn.close()
+                return render(request, "moderate.html", {"mod_3": vehicles, "name":name})    
+
+            if 'mod-4' == query:
+                cur.execute("SELECT manufacturer, ROUND(AVG(revenue), 2) average_revenue FROM vehicles GROUP BY manufacturer ORDER BY average_revenue DESC;")
+                vehicles = cur.fetchall()
+                conn.close()
+                return render(request, "moderate.html", {"mod_4": vehicles, "name":name})     
+            
+            if 'mod-5' == query:
+                cur.execute("SELECT vehicle_type, ROUND(AVG(revenue), 2) average_revenue FROM vehicles GROUP BY vehicle_type ORDER BY average_revenue DESC;")
+                vehicles = cur.fetchall()
+                conn.close()
+                return render(request, "moderate.html", {"mod_5": vehicles, "name":name}) 
+            
+            if 'mod-6' == query:
+                cur.execute("SELECT model, ROUND(AVG(revenue), 2) average_revenue FROM vehicles GROUP BY model ORDER BY average_revenue DESC;")
+                vehicles = cur.fetchall()
+                conn.close()
+                return render(request, "moderate.html", {"mod_6": vehicles, "name":name}) 
+            
+            if 'mod-7' == query:
+                cur.execute("SELECT vehicle_type, manufacturer, model, ROUND(AVG(revenue), 2) average_revenue FROM vehicles GROUP BY vehicle_type, manufacturer, model ORDER BY vehicle_type, manufacturer, model;")
+                vehicles = cur.fetchall()
+                conn.close()
+                return render(request, "moderate.html", {"mod_7": vehicles, "name":name}) 
+            
+            if 'mod-8' == query:
+                cur.execute("SELECT occupation, COUNT(*) count FROM operators GROUP BY occupation;")
+                operators = cur.fetchall()
+                conn.close()
+                return render(request, "moderate.html", {"mod_8": operators, "name":name}) 
+
+        return render(request, "moderate.html", {"name":name})
+
+    else:
+        return redirect('login') 
+
 
 
 def userprofile(request):
