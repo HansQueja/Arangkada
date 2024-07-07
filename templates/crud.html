@@ -9,6 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Local Public Transport Manual</title>
     <link rel="stylesheet" href="{% static 'main.css' %}">
+    <link rel="stylesheet" href="{% static 'crud.css' %}">
 </head>
 <body>
     <div class="main">
@@ -39,19 +40,11 @@
                 </ul>
             </div>
         </div>
-        <div class="content">
-            <img src="{% static 'images/jeepneys-in-manila-philippines.jpg' %}" alt="Cover Image" class="cover-image">
-            <div class="centered-text">
-                <h1>LOCAL PUBLIC TRANSPORT <br><span>ROUTE PLAN MANUAL FORM</span></h1>
-                {% if not name %}
-                <a class="login-button" href="{% url 'login' %}">Login</a>
-                {% endif %}
-            </div>
+        <div class="crud-container">
+            <a href="{% url 'create' %}" class="btn">Create Records</a>
+            <a href="/crud/update" class="btn">Update Records</a>
+            <a href="/crud/delete" class="btn">Delete Records</a>
         </div>
-    </div>
-    <footer>
-        <p>&copy; 2024 Local Public Transport Route Plan Manual</p>
-    </footer>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
 </body>
 </html>
+

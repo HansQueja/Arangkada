@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth.hashers import make_password, check_password
 from django.contrib.sessions.backends.db import SessionStore
+from django.contrib import messages
 from django.shortcuts import redirect
 
 import sqlite3
@@ -17,6 +18,19 @@ def about(request):
     if 'user_id' in request.session:
         name = request.session['first_name']
         return render(request, 'aboutus.html', {"name":name})
+    else:
+        return redirect('login')
+    
+def userprofile(request):
+    if 'user_id' in request.session:
+        user_id = request.session['user_id']
+        first_name = request.session['first_name']
+        last_name = request.session['last_name']
+        email = request.session['email']
+        return render(request, 'userprofile.html', {"user_id": user_id, 
+                                                    "first_name": first_name,
+                                                    "last_name": last_name,
+                                                    "email": email})
     else:
         return redirect('login')
 
@@ -97,8 +111,10 @@ def signup(request):
 
 # for showtables()
 def get_tables():
+
     conn = sqlite3.connect('transport.db') #establish connection to the db
     cur = conn.cursor() #establish a cursor to execute sql statements/queries
+
     cur.execute("SELECT * FROM vehicles")
     vehicles = cur.fetchall()
     cur.execute("SELECT * FROM components")
@@ -161,7 +177,6 @@ def basic(request):
 def moderate(request):
 
     if 'user_id' in request.session:
-
         name = request.session['first_name']
 
         if request.method == "POST":
@@ -260,5 +275,157 @@ def complex(request):
     else:
         return redirect('login') 
 
-def userprofile(request):
-    return render(request, "userprofile.html")
+
+def database(request):
+    return render(request, "crud.html")
+
+# prerequisite of create method
+def get_record(request, table): #getting input for each attr for a specific table and returns it as a tuple
+    
+    conn = sqlite3.connect('transport.db')
+    c = conn.cursor()
+    
+    match table:
+        case 'components': 
+
+            model = request.POST.get('model')
+            c.execute(f"SELECT model FROM components WHERE model = '{model}'")
+            result = c.fetchone()
+
+            if result:
+                return -1
+
+            brake_system = request.POST.get('brake_system')
+            clutch = request.POST.get('clutch')
+            tires = request.POST.get('tires')
+            battery = request.POST.get('battery')
+            bearings = request.POST.get('bearings')
+            belt = request.POST.get('belt')
+            fuel_filter = request.POST.get('fuel_filter')
+            piston_ring = request.POST.get('piston_ring')
+            lights = request.POST.get('lights')
+            body = request.POST.get('body')
+            electrical_system = request.POST.get('electrical_system')
+            values = (model, brake_system, clutch, tires, battery, bearings, belt, fuel_filter, piston_ring, lights, body, electrical_system)
+        case 'operators':
+
+            operator_number = request.POST.get('operator_number')
+            c.execute(f"SELECT operator_number FROM operators WHERE operator_number = '{operator_number}'")
+            result = c.fetchone()
+
+            if result:
+                return -2
+            
+            name_of_operator = request.POST.get('name_of_operator')
+            address = request.POST.get('address')
+            occupation = request.POST.get('occupation')
+            no_of_operational_units = request.POST.get('no_of_operational_units')
+            age = request.POST.get('age')
+            contact_number = request.POST.get('contact_number')
+            values = (operator_number, name_of_operator, address, occupation, no_of_operational_units, age, contact_number)
+        case 'vehicles':
+
+            plate_number = request.POST.get('plate_number')
+            c.execute(f"SELECT plate_number FROM vehicles WHERE plate_number = '{plate_number}'")
+            result = c.fetchone()
+
+            if result:
+                return -3
+            
+            vehicle_type = request.POST.get('vehicle_type')
+            manufacturer = request.POST.get('manufacturer')
+            model = request.POST.get('model')
+            year = request.POST.get('year')
+            revenue = request.POST.get('revenue')
+            engine_condition = request.POST.get('engine_condition')
+            seat_capacity = request.POST.get('seat_capacity')
+            operation_times = request.POST.get('operation_times')
+            operator_number = request.POST.get('operator_number')
+            route_id = request.POST.get('route_id')
+            values = (plate_number, vehicle_type, manufacturer, model, year, revenue, engine_condition, seat_capacity, operation_times, operator_number, route_id)
+        case 'routes':
+
+            route_id = request.POST.get('route_id')
+            c.execute(f"SELECT route_id FROM vehicles WHERE route_id = '{route_id}'")
+            result = c.fetchone()
+            
+            if result:
+                return -4
+            
+            start_route = request.POST.get('start_route')
+            end_route = request.POST.get('end_route')
+            route_length = request.POST.get('route_length')
+            base_fare = request.POST.get('base_fare')
+            values = (route_id, start_route, end_route, route_length, base_fare)
+
+    conn.close()
+    return values
+
+def create_record(table, values): #setting values to the db with a query
+    conn = sqlite3.connect('transport.db')
+    conn.row_factory = sqlite3.Row #allows the db to be referenced by column names
+    c = conn.cursor()
+    attributes = {'components': ('model', 'brake_system', 'clutch', 'tires', 'battery', 'bearings', 'belt', 'fuel_filter', 'piston_ring', 'lights', 'body', 'electrical_system'),
+                'operators': ('operator_number', 'name_of_operator', 'address', 'occupation', 'no_of_operational_units', 'age', 'contact_number'),
+                'vehicles': ('plate_number', 'vehicle_type', 'manufacturer', 'model', 'year', 'revenue', 'engine_condition', 'seat_capacity', 'operation_times', 'operator_number', 'route_id'),
+                'routes': ('route_id', 'start_route', 'end_route', 'route_length', 'base_fare') 
+                } #for matching attributes with values
+    placeholders = {'components': '(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+                    'operators': '(?, ?, ?, ?, ?, ?, ?)',
+                    'vehicles': '(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+                    'routes': '(?, ?, ?, ?, ?)' 
+                    } #for placeholder where the tupled values go
+                      #might separate these dicts in a diff function/make it global, if it would be used for other crud operations
+    query = f"INSERT INTO {table} {attributes[table]} VALUES {placeholders[table]}"
+    c.execute(query, values)
+    conn.commit()
+    conn.close()
+
+def create(request):
+    if 'user_id' in request.session:
+
+        vehicles, components, operators, routes = get_tables()
+        name = request.session['first_name']
+
+        if request.method == "POST":
+            table = request.POST.get('form_type')
+            values = get_record(request, table)
+
+            if values == -1:
+                messages.error(request, "The model value you've entered is already in the database. Enter a unique model.")
+                return render(request, "create.html", {"vehicles": vehicles, 
+                                              "components": components,
+                                              "operators": operators,
+                                              "routes": routes,
+                                              "name": name})
+            if values == -2:
+                messages.error(request, "The operator number value you've entered is already in the database. Enter a unique operator number.")
+                return render(request, "create.html", {"vehicles": vehicles, 
+                                              "components": components,
+                                              "operators": operators,
+                                              "routes": routes,
+                                              "name": name})
+            if values == -3:
+                messages.error(request, "The plate number you've entered is already in the database. Enter a unique plate number.")
+                return render(request, "create.html", {"vehicles": vehicles, 
+                                              "components": components,
+                                              "operators": operators,
+                                              "routes": routes,
+                                              "name": name})
+            if values == -4:
+                messages.error(request, "The route id you've entered is already in the database. Enter a unique route id.")
+                return render(request, "create.html", {"vehicles": vehicles, 
+                                              "components": components,
+                                              "operators": operators,
+                                              "routes": routes,
+                                              "name": name})
+            create_record(table, values)
+            return redirect('create')
+
+        return render(request, "create.html", {"vehicles": vehicles, 
+                                              "components": components,
+                                              "operators": operators,
+                                              "routes": routes,
+                                              "name": name})
+    else:
+        return redirect('login')    

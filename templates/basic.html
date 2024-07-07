@@ -13,27 +13,32 @@
 </head>
 <body> 
     <div class="navbar">
-        <div class="icon">
-            <img src="{% static 'images/logo-5.png' %}" alt="Logo" class="logo-image">
-        </div>
-        <div class="menu">
-            <ul>
-                <li class="hovercolor">
-                    <a href="userprofile.html">
-                        <i class="fas fa-user"></i> Hello, {{ name }}
-                    </a>
-                </li>
-                <li class="hovercolor"><a href="{% url 'home' %}">HOME</a></li>
-                <li><a href="{% url 'about' %}">ABOUT US</a></li>
-                <li class="dropdown">
-                    <a href="#" class="dropbtn">QUERIES</a>
-                    <div class="dropdown-content">
-                        <a href="{% url 'basic' %}">Basic Queries</a>
-                        <a href="#">Query Type 2</a>
-                        <a href="#">Query Type 3</a>
-                    </div>
-                </li>
-            </ul>
+        <div class="navbar">
+            <div class="icon">
+                <img src="{% static 'images/logo-5.png' %}" alt="Logo" class="logo-image">
+            </div>
+            <div class="menu">
+                <ul>
+                    <li class="hovercolor">
+                        <a href="{% url 'userprofile' %}">
+                            <i class="fas fa-user"></i> Hello, {{ name }}
+                        </a>
+                    </li>
+                    <li class="hovercolor"><a href="{% url 'home' %}">HOME</a></li>
+                    <li><a href="{% url 'about' %}">ABOUT US</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropbtn">QUERIES</a>
+                        <div class="dropdown-content">
+                            <a href="{% url 'basic' %}">Basic Queries</a>
+                            <a href="{% url 'moderate' %}">Moderate Queries</a>
+                            <a href="{% url 'complex' %}">Complex Queries</a>
+                            <a href="{% url 'showtables' %}">Show Tables</a>
+                            <a href="{% url 'database' %}">Database Management</a>
+                        </div>
+                    </li>
+                    <li><a href="{% url 'logout' %}">LOGOUT</a></li>
+                </ul>
+            </div>
         </div>
     </div>
     <div class="query-content">

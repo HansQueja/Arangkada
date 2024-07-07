@@ -18,7 +18,6 @@ def get_tables():
     conn.close()
     return vehicles, components, operators, routes
 
-
 def get_record(table): #getting input for each attr for a specific table and returns it as a tuple
     match table:
         case 'components': 

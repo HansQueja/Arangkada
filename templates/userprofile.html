@@ -17,18 +17,24 @@
         </div>
         <div class="menu">
             <ul>
-                <li><a href="{% url 'userprofile' %}"><i class="fas fa-user"></i> USER PROFILE</a></li>
+                <li class="hovercolor">
+                    <a href="{% url 'userprofile' %}">
+                        <i class="fas fa-user"></i> Hello, {{ name }}
+                    </a>
+                </li>
                 <li class="hovercolor"><a href="{% url 'home' %}">HOME</a></li>
                 <li><a href="{% url 'about' %}">ABOUT US</a></li>
                 <li class="dropdown">
                     <a href="#" class="dropbtn">QUERIES</a>
                     <div class="dropdown-content">
-                        <a href="#">Query Type 1</a>
-                        <a href="#">Query Type 2</a>
-                        <a href="#">Query Type 3</a>
-                        <a href="#">Show Tables</a>
+                        <a href="{% url 'basic' %}">Basic Queries</a>
+                        <a href="{% url 'moderate' %}">Moderate Queries</a>
+                        <a href="{% url 'complex' %}">Complex Queries</a>
+                        <a href="{% url 'showtables' %}">Show Tables</a>
+                        <a href="{% url 'database' %}">Database Management</a>
                     </div>
                 </li>
+                <li><a href="{% url 'logout' %}">LOGOUT</a></li>
             </ul>
         </div>
     </div>    
@@ -41,13 +47,11 @@
         <div class="details-box">
             <h2>Operator Profile</h2>
             <div class="profile-details">
-                <div class="detail"><span>Operator Number:</span> 12345</div>
-                <div class="detail"><span>Name:</span> John Doe</div>
-                <div class="detail"><span>Address:</span> 123 Main St, City, Country</div>
-                <div class="detail"><span>Occupation:</span> Bus Operator</div>
-                <div class="detail"><span>Age:</span> 45</div>
+                <div class="detail"><span>User ID:</span> {{ user_id }} </div>
+                <div class="detail"><span>First Name:</span> {{ first_name }} </div>
+                <div class="detail"><span>Last Name:</span>{{ last_name }}</div>
+                <div class="detail"><span>Email:</span>{{ email }}</div>
                 <div class="detail"><span>Contact Number:</span> +123 456 7890</div>
-                <div class="detail"><span>No. of Operational Units:</span> 5</div>
             </div>
             <button class="edit-button">Edit</button>
         </div>
