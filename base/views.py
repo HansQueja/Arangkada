@@ -46,6 +46,7 @@ def login(request):
 
         cur.execute("SELECT * FROM users WHERE email = (?)", (email,))
         account = cur.fetchone()
+        print("here post")
 
         if account and check_password(password, account[4]):
             
@@ -261,7 +262,7 @@ def complex(request):
                 cur.execute("SELECT o.operator_number, r.route_id, r.start_route, r.end_route FROM operators o JOIN vehicles v ON v.operator_number = o.operator_number JOIN routes r ON r.route_id = v.route_id WHERE o.name_of_operator = (?);", (operator_name,))
                 routes = cur.fetchall()
                 conn.close()
-                return render(request, "complex.html", {"mod_2": routes, "name":name})
+                return render(request, "complex.html", {"mod_2": routes, "name":name, "operator_name":operator_name})
             
             if 'mod-3' == query:
                 cur.execute("SELECT v.plate_number, v.revenue,  ROUND((c.brake_system + c.clutch + c.tires + c.battery + c.bearings + c.belt + c.fuel_filter + c.piston_ring + c.lights + c.body + c.electrical_system), 2) 'Total maintenance cost' FROM vehicles v JOIN components c ON c.model = v.model ORDER BY revenue DESC;")
