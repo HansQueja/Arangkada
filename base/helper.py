@@ -149,6 +149,11 @@ def delete_record(table, pk_value):
     conn = sqlite3.connect('transport.db')
     conn.execute('PRAGMA foreign_keys = ON;')
     c = conn.cursor()
+
+    query = f"DELETE FROM vehicles WHERE {primary_key[table]}=?"
+    c.execute(query, (pk_value,))
+    conn.commit()
+    
     query = f"DELETE FROM {table} WHERE {primary_key[table]}=?"
     c.execute(query, (pk_value,))
     conn.commit()
