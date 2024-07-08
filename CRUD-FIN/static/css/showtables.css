@@ -1,3 +1,4 @@
+
 * {
     margin: 0;
     padding: 0;
@@ -29,6 +30,7 @@ body{
 }
 
 .container{
+    margin-top: 5%;
     scroll-snap-type: y mandatory;
     overflow-y: scroll;
     height: 100vh;
@@ -42,11 +44,14 @@ section{
     overflow:auto;
     margin: 0 auto;
     z-index: 0;
+    text-align: center;
+    margin-top:30px;
+    margin-bottom:30px;
 }
 
 table{
     margin: 20px auto;
-    min-width: 60vw;
+    min-width: 70vw;
     text-align: center;
 }
 
@@ -61,11 +66,11 @@ td, th{
 
 .vehicle{
     background-color: rgba(255, 255, 255, 0);
-    font-size: 0.45em;
+    font-size: 0.9em;
 }
 
 .components, .operator, .route{
     background-color: rgba(255, 255, 255, 0);
-    font-size: 0.5em;
+    font-size: 0.9em;
 }
 

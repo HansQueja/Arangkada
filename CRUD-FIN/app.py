@@ -3,9 +3,23 @@ import sqlite3
 
 app = Flask(__name__)
 
+attributes = {'components': ('model', 'brake_system', 'clutch', 'tires', 'battery', 'bearings', 'belt', 'fuel_filter', 'piston_ring', 'lights', 'body', 'electrical_system'),
+                'operators': ('operator_number', 'name_of_operator', 'address', 'occupation', 'no_of_operational_units', 'age', 'contact_number'),
+                'vehicles': ('plate_number', 'vehicle_type', 'manufacturer', 'model', 'year', 'revenue', 'engine_condition', 'seat_capacity', 'operation_times', 'operator_number', 'route_id'),
+                'routes': ('route_id', 'start_route', 'end_route', 'route_length', 'base_fare') 
+                } #for matching attributes with values
+placeholders = {'components': '(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+                    'operators': '(?, ?, ?, ?, ?, ?, ?)',
+                    'vehicles': '(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+                    'routes': '(?, ?, ?, ?, ?)' 
+                    } #for placeholder where the tupled values go
+                      #might separate these dicts in a diff function/make it global, if it would be used for other crud operations
+
+
 def get_tables():
-    conn = sqlite3.connect('transportV1.db') #establish connection to the db
+    conn = sqlite3.connect('transport.db') #establish connection to the db
     conn.row_factory = sqlite3.Row
+    conn.execute('PRAGMA foreign_keys = ON;')
     cur = conn.cursor() #establish a cursor to execute sql statements/queries
     cur.execute("SELECT * FROM vehicles")
     vehicles = cur.fetchall()
@@ -18,8 +32,9 @@ def get_tables():
     conn.close()
     return vehicles, components, operators, routes
 
-def get_record(table): #getting input for each attr for a specific table and returns it as a tuple
-    match table:
+
+def get_record(table):
+    match table: #getting input for each attr for a specific table
         case 'components': 
             model = request.form.get('model')
             brake_system = request.form.get('brake_system')
@@ -66,29 +81,70 @@ def get_record(table): #getting input for each attr for a specific table and ret
     return values
 
 
-def create_record(table, values): #setting values to the db with a query
-    conn = sqlite3.connect('transportV1.db')
+def create_record(table, values):
+    conn = sqlite3.connect('transport.db')
+    conn.execute('PRAGMA foreign_keys = ON;')
     conn.row_factory = sqlite3.Row #allows the db to be referenced by column names
     c = conn.cursor()
-    attributes = {'components': ('model', 'brake_system', 'clutch', 'tires', 'battery', 'bearings', 'belt', 'fuel_filter', 'piston_ring', 'lights', 'body', 'electrical_system'),
-                'operators': ('operator_number', 'name_of_operator', 'address', 'occupation', 'no_of_operational_units', 'age', 'contact_number'),
-                'vehicles': ('plate_number', 'vehicle_type', 'manufacturer', 'model', 'year', 'revenue', 'engine_condition', 'seat_capacity', 'operation_times', 'operator_number', 'route_id'),
-                'routes': ('route_id', 'start_route', 'end_route', 'route_length', 'base_fare') 
-                } #for matching attributes with values
-    placeholders = {'components': '(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
-                    'operators': '(?, ?, ?, ?, ?, ?, ?)',
-                    'vehicles': '(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
-                    'routes': '(?, ?, ?, ?, ?)' 
-                    } #for placeholder where the tupled values go
-                      #might separate these dicts in a diff function/make it global, if it would be used for other crud operations
+    
     query = f"INSERT INTO {table} {attributes[table]} VALUES {placeholders[table]}"
     c.execute(query, values)
     conn.commit()
     conn.close()
+    
+    
+def get_pk(table):
+    match table: #getting input for each attr for a specific table
+        case 'components': 
+            pk = request.form.get('model')
+        case 'operators':
+            pk = request.form.get('operator_number')
+        case 'vehicles':
+            pk = request.form.get('plate_number')
+        case 'routes':
+            pk = request.form.get('route_id')
+    return pk
+    
+    
+def delete_record(table, pk_value):
+    primary_key = {'components': 'model','operators': 'operator_number', 'vehicles': 'plate_number', 'routes': 'route_id'}
+    conn = sqlite3.connect('transport.db')
+    conn.execute('PRAGMA foreign_keys = ON;')
+    c = conn.cursor()
+    query = f"DELETE FROM {table} WHERE {primary_key[table]}=?"
+    c.execute(query, (pk_value,))
+    conn.commit()
+    conn.close()
 
 
-@app.route('/', methods=['POST', 'GET'])
-def crud(): #for directory
+def update_record(table, values):
+    pk_value = values[0]#get pk value
+    values = values[1:] #remove pk from the values
+    
+    active_attr = attributes[table] #get the attributes of the table to be updated
+    pk_name = active_attr[0] #get pk attribute
+    active_attr = active_attr[1:] #remove pk attribute
+    
+    val_list = [element for element in values if element != ''] #strip the input values tuple of ' '(skipped) inputs
+    attr_list = [attr for attr, val in zip(active_attr, values) if val !=''] #remove attributes that has no corresponding input values
+    zipped_values = zip(attr_list, val_list) #match the attribute to the value
+    
+    conn = sqlite3.connect('transport.db')
+    c = conn.cursor()
+    for attr, val in zipped_values: #loop through each attribute-value to update
+        query = f"UPDATE {table} SET {attr} = ? WHERE {pk_name} = ?"
+        c.execute(query, (val, pk_value))
+    conn.commit()
+    conn.close()
+
+
+    
+@app.route('/')
+def index():
+    return redirect('/crud')
+
+@app.route('/crud', methods=['POST', 'GET'])
+def crud():
     return render_template('crud.html')
 
 
@@ -106,7 +162,7 @@ def create():
         try:
             create_record(table, values)
             return redirect('/crud/create')
-        except sqlite3.IntegrityError as e: #not sure how to handle errors concerning duplicate pk's
+        except sqlite3.IntegrityError as e:
             return f'Error with {e}'
         except Exception as e:
             return f'{e}'
@@ -117,14 +173,32 @@ def create():
 
 @app.route('/crud/update', methods=['POST', 'GET'])
 def update():
-    return render_template('update.html')
+    if request.method == 'POST':
+        table = request.form.get('form_type')
+        values = get_record(table)
+        try:
+            update_record(table, values)
+            return redirect('/crud/update')
+        except Exception as e:
+            return f'{e}'
+    else:
+        vehicles, components, operators, routes = get_tables() #for dropdown menu of foreign keys
+        return render_template('update.html', vehicles=vehicles, components=components, operators=operators, routes=routes)
 
 
 @app.route('/crud/delete', methods=['POST', 'GET'])
 def delete():
-    return render_template('delete.html')
-
-#i'll add def read(); later
+    if request.method == 'POST':
+        table = request.form.get('form_type')
+        pk = get_pk(table)
+        try:
+            delete_record(table, pk)
+            return redirect('/crud/delete')
+        except Exception as e:
+            return f'{e}'
+    else:
+        vehicles, components, operators, routes = get_tables() #for dropdown menu of foreign keys
+        return render_template('delete.html', vehicles=vehicles, components=components, operators=operators, routes=routes)
 
 if __name__ == "__main__":
     app.run(debug=True)
