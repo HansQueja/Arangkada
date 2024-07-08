@@ -29,6 +29,7 @@ body{
 }
 
 .container{
+    margin-top: 5%;
     scroll-snap-type: y mandatory;
     overflow-y: scroll;
     height: 100vh;
@@ -42,6 +43,9 @@ section{
     overflow:auto;
     margin: 0 auto;
     z-index: 0;
+    text-align: center;
+    margin-top:30px;
+    margin-bottom:30px;
 }
 
 table{

@@ -1,0 +1,125 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+::-webkit-scrollbar {
+    width: 0.9em
+}
+
+::-webkit-scrollbar-track {
+    background-color: rgba(255, 255, 255, 0);
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: rgb(255, 255, 255, 0.3);
+    border-radius: 100vw;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: rgb(255, 255, 255, 0.7);
+}
+
+.container{
+    margin-top: 40px;
+    margin-bottom: 20px;
+    scroll-snap-type: y mandatory;
+    overflow-y: scroll;
+    height: 100vh;
+
+}
+
+section{
+    height: 100vh;
+    width: 75vw;
+    scroll-snap-align: start;
+    overflow:auto;
+    margin: 0 auto;
+    z-index: 0;
+    text-align: center;
+}
+
+table{
+    margin: 20px auto;
+    min-width: 60vw;
+    text-align: center;
+}
+
+th{
+    font-weight: bold;
+    color: white;
+    background-color: #2d2d2d;
+}
+
+td, th{
+    padding: 5px;
+}
+
+.vehicle{
+    background-color: rgba(255, 255, 255, 0);
+    font-size: 1em;
+}
+
+.components{
+    background-color: rgba(255, 255, 255, 0);
+    font-size: 1em;
+}
+
+.operator{
+    background-color: rgba(255, 255, 255, 0);
+    font-size: 1em;
+}
+
+.route{
+    background-color: rgba(255, 255, 255, 0);
+    font-size: 1em;
+}
+
+.query-div {
+    position: relative;
+    top: 15%;
+    left: 10%;
+    right: 10%;
+    justify-content: center;
+}
+
+.query-content {
+    display: relative;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin-top: 8%;
+}
+
+.dropdown-form {    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dropdown-select {
+    padding: 20px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-right: 10px;
+    width: 50%;
+    text-align: center;
+}
+
+.submit-button {
+    background-color: #FFC100;
+    color: #ffffff;
+    border: none;
+    padding: 23px 35px;
+    font-size: 15px;
+    font-weight: bolder;
+    text-decoration: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.submit-button:hover {
+    background-color: #d98c00;
+}

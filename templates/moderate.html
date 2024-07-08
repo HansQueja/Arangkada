@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head> 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Local Public Transport Manual</title>
+    <link rel="stylesheet" href="{% static 'table.css' %}">
+    <link rel="stylesheet" href="{% static 'main.css' %}">
+</head>
+<body> 
+    <div class="navbar">
+        <div class="icon">
+            <img src="{% static 'images/logo-5.png' %}" alt="Logo" class="logo-image">
+        </div>
+        <div class="menu">
+            <ul>
+                <li class="hovercolor">
+                    <a href="{% url 'userprofile' %}">
+                        <i class="fas fa-user"></i> Hello, {{ name }}
+                    </a>
+                </li>
+                <li class="hovercolor"><a href="{% url 'home' %}">HOME</a></li>
+                <li><a href="{% url 'about' %}">ABOUT US</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropbtn">QUERIES</a>
+                    <div class="dropdown-content">
+                        <a href="{% url 'basic' %}">Basic Queries</a>
+                        <a href="{% url 'moderate' %}">Moderate Queries</a>
+                        <a href="{% url 'complex' %}">Complex Queries</a>
+                        <a href="{% url 'showtables' %}">Show Tables</a>
+                        <a href="{% url 'database' %}">Database Management</a>
+                    </div>
+                </li>
+                <li><a href="{% url 'logout' %}">LOGOUT</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="query-content">
+        <h1>Moderate Queries</h1>
+        <form class="dropdown-form" method="POST">
+            {% csrf_token %}
+            <select name="options" id="options" class="dropdown-select">
+                <option value="mod-1">Group Routes by their starting point, ordered by most number of same starting point</option>
+                <option value="mod-2">Vehicle Count by manufacturer</option>
+                <option value="mod-3">Vehicle Count by Vehicle type</option>
+                <option value="mod-4">Vehicles Average Revenue by Manufacturer</option>
+                <option value="mod-5">Vehicles Average Revenue of by Vehicle Type</option>
+                <option value="mod-6">Vehicles Average Revenue of by Model</option>
+                <option value="mod-7">Vehicles Average Revenue, by Vehicle Type and Manufacturer and Model</option>
+                <option value="mod-8">Operators Count grouped by Occupation</option>
+            </select>
+            <button type="submit" class="submit-button">Run Query</button>
+        </form>
+    </div>
+
+    {% if mod_1 %}
+    <div class="container">
+        <section class="route">
+            <div class="title">Group routes by their starting point, ordered by most number of same starting point</div>
+            <table> 
+                <tr>
+                    <th>Start Route</th>
+                    <th>Number of Same Start Route</th>
+                </tr>
+                {% for row in mod_1 %}
+                <tr>
+                    <td>{{ row.0 }}</td>
+                    <td>{{ row.1 }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </section>
+    </div>
+    {% endif %}
+
+    {% if mod_2 %}
+    <div class="container">
+        <section class="vehicle">
+            <div class="title">Vehicle count by manufacturer</div>
+            <table> 
+                <tr>
+                    <th>Manufacturer</th>
+                    <th>Vehicle Count</th>   
+                </tr>
+                {% for row in mod_2 %}
+                <tr>
+                    <td>{{ row.0 }}</td>
+                    <td>{{ row.1 }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </section>
+    </div>
+    {% endif %}
+
+    {% if mod_3 %}
+    <div class="container">
+        <section class="vehicle">
+            <div class="title">Vehicle count by Vehicle type</div>
+            <table> 
+                <tr>
+                    <th>Vehicle Type</th>
+                    <th>Count</th>
+                </tr>
+                {% for row in mod_3 %}
+                <tr>
+                    <td>{{ row.0 }}</td>
+                    <td>{{ row.1 }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </section>
+    </div>
+    {% endif %}
+
+    {% if mod_4 %}
+    <div class="container">
+        <section class="vehicle">
+            <div class="title">Vehicles average revenue by manufacturer</div>
+            <table> 
+                <tr>
+                    <th>Manufacturer</th>
+                    <th>Average Revenue</th>
+                </tr>
+                {% for row in mod_4 %}
+                <tr>
+                    <td>{{ row.0 }}</td>
+                    <td>Php. {{ row.1 }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </section>
+    </div>
+    {% endif %}
+
+    {% if mod_5 %}
+    <div class="container">
+        <section class="vehicle">
+            <div class="title">Vehicles Average Revenue of by Vehicle Type</div>
+            <table> 
+                <tr>
+                    <th>Vehicle Type</th>
+                    <th>Average Revenue</th>
+                </tr>
+                {% for row in mod_5 %}
+                <tr>
+                    <td>{{ row.0 }}</td>
+                    <td>Php. {{ row.1 }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </section>
+    </div>
+    {% endif %}
+
+    {% if mod_6 %}
+    <div class="container">
+        <section class="vehicle">
+            <div class="title">Vehicles Average Revenue of by Model</div>
+            <table> 
+                <tr>
+                    <th>Model</th>
+                    <th>Average Revenue</th>
+                </tr>
+                {% for row in mod_6 %}
+                <tr>
+                    <td>{{ row.0 }}</td>
+                    <td>Php. {{ row.1 }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </section>
+    </div>
+    {% endif %}
+
+    {% if mod_7 %}
+    <div class="container">
+        <section class="vehicle">
+            <div class="title">Vehicles Average Revenue of by Model</div>
+            <table> 
+                <tr>
+                    <th>Vehicle Type</th>
+                    <th>Manufacturer</th>
+                    <th>Model</th>
+                    <th>Average Revenue</th>
+                </tr>
+                {% for row in mod_7 %}
+                <tr>
+                    <td>{{ row.0 }}</td>
+                    <td>{{ row.1 }}</td>
+                    <td>{{ row.2 }}</td>
+                    <td>Php. {{ row.3 }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </section>
+    </div>
+    {% endif %}
+
+    {% if mod_8 %}
+    <div class="container">
+        <section class="route">
+            <div class="title">Operators Count grouped by Occupation</div>
+            <table> 
+                <tr>
+                    <th>Occupation</th>
+                    <th>Operator Count</th>
+                </tr>
+                {% for row in mod_8 %}
+                <tr>
+                    <td>{{ row.0 }}</td>
+                    <td>{{ row.1 }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </section>
+    </div>
+    {% endif %}
+</body>
+</html>

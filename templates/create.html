@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arangkada | Create</title>
+    <link rel="stylesheet" href="{% static 'main.css' %}">
+    <link rel="stylesheet" href="{% static 'create.css' %}">
+</head>
+<body>
+    <div class="main">
+        <div class="navbar">
+            <div class="icon">
+                <img src="{% static 'images/logo-5.png' %}" alt="Logo" class="logo-image">
+            </div>
+            <div class="menu">
+                <ul>
+                    <li class="hovercolor">
+                        <a href="{% url 'userprofile' %}">
+                            <i class="fas fa-user"></i> Hello, {{ name }}
+                        </a>
+                    </li>
+                    <li class="hovercolor"><a href="{% url 'home' %}">HOME</a></li>
+                    <li><a href="{% url 'about' %}">ABOUT US</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropbtn">QUERIES</a>
+                        <div class="dropdown-content">
+                            <a href="{% url 'basic' %}">Basic Queries</a>
+                            <a href="{% url 'moderate' %}">Moderate Queries</a>
+                            <a href="{% url 'complex' %}">Complex Queries</a>
+                            <a href="{% url 'showtables' %}">Show Tables</a>
+                            <a href="{% url 'database' %}">Database Management</a>
+                        </div>
+                    </li>
+                    <li><a href="{% url 'logout' %}">LOGOUT</a></li>
+                </ul>
+            </div>
+        </div>
+    
+    <div class="container">
+        <section class="operators">
+            <div class="operators-box">
+                <div class="operators-header">
+                    <header>Record for Operators Table</header>
+                </div>
+                <form method="POST" class="create_form">
+                    {% csrf_token %}
+                    <input type="hidden" name="form_type" value="operators"> <!-- signifies what table the form is for -->
+                    <div class="input-box">
+                        <input type="text" name="operator_number" class="input-field" placeholder="Operator Number" required maxlength="8" autocomplete="off">
+                    </div>
+                    <div class="input-box">
+                        <input type="text" name="name_of_operator" class="input-field" placeholder="Name of Operator" required maxlength="50" autocomplete="off"> 
+                    </div>
+                    <div class="input-box">
+                        <input type="text" name="address" class="input-field" placeholder="Address" required maxlength="50" autocomplete="off">
+                    </div>
+                    <div class="input-box">
+                        <select name="occupation" class="input-field" required>
+                            <option value="Bus Operator">Bus Operator</option>
+                            <option value="PUJ Operator">PUJ Operator</option>
+                            <option value="UV Operator">UV Operator</option>
+                        </select>
+                    </div>
+                    <div class="input-box">
+                        <input type="text" name="no_of_operational_units" class="input-field" placeholder="Number of Operational Units" required pattern="[0-9]{1,3}" autocomplete="off">
+                    </div>
+                    <div class="input-box">
+                        <input type="text" name="age" class="input-field" placeholder="Age" required pattern="[0-9]{1,3}" autocomplete="off">
+                    </div>
+                    <div class="input-box">
+                        <input type="text" name="contact_number" class="input-field" placeholder="Contact Number" required pattern="[0-9]{10}" autocomplete="off">
+                    </div>
+                    <div class="input-submit">
+                        <input type="submit" value="Add Record" class="submit">
+                    </div>
+                </form>
+                <a href="{% url 'showtables' %}" class="button" target="_blank">Show Tables</a>
+            </div>
+        </section>
+
+        <section class="components">
+            <div class="components-box">
+                <div class="components-header">
+                    <header>Record for Components Table</header>
+                </div>
+                <form method="POST" class="create_form">
+                    {% csrf_token %}
+                    <input type="hidden" name="form_type" value="components"> <!-- signifies what table the form is for -->
+                    <div class="input-box">
+                        <input type="text" name="model" class="input-field" placeholder="Model" required maxlength="10" autocomplete="off">
+                    </div>
+                    <div class="input-box">
+                        <input type="text" name="brake_system" class="input-field" placeholder="Brake System" pattern="^[0-9]{0,6}(?:\.[0-9]{1,2})?$" autocomplete="off"> 
+                    </div>
+                    <div class="input-box">
+                        <input type="text" name="clutch" class="input-field" placeholder="Clutch" pattern="^[0-9]{0,6}(?:\.[0-9]{1,2})?$" autocomplete="off">
+                    </div>
+                    <div class="input-box">
+                        <input type="text" name="tires" class="input-field" placeholder="Tires" pattern="^[0-9]{0,6}(?:\.[0-9]{1,2})?$" autocomplete="off">
+                    </div>
+                    <div class="input-box">
+                        <input type="text" name="battery" class="input-field" placeholder="Battery" pattern="^[0-9]{0,6}(?:\.[0-9]{1,2})?$" autocomplete="off">
+                    </div>
+                    <div class="input-box">
+                        <input type="text" name="bearings" class="input-field" placeholder="Bearings" pattern="^[0-9]{0,6}(?:\.[0-9]{1,2})?$" autocomplete="off">
+                    </div>
+                    <div class="input-box">
+                        <input type="text" name="belt" class="input-field" placeholder="Belt" pattern="^[0-9]{0,6}(?:\.[0-9]{1,2})?$" autocomplete="off">
+                    </div>
+                    <div class="input-box">
+                        <input type="text" name="fuel_filter" class="input-field" placeholder="Fuel Filter" pattern="^[0-9]{0,6}(?:\.[0-9]{1,2})?$" autocomplete="off">
+                    </div>
+                    <div class="input-box">
+                        <input type="text" name="piston_ring" class="input-field" placeholder="Piston Ring" pattern="^[0-9]{0,6}(?:\.[0-9]{1,2})?$" autocomplete="off">
+                    </div>
+                    <div class="input-box">
+                        <input type="text" name="lights" class="input-field" placeholder="Lights" pattern="^[0-9]{0,6}(?:\.[0-9]{1,2})?$" autocomplete="off">
+                    </div>
+                    <div class="input-box">
+                        <input type="text" name="body" class="input-field" placeholder="Body" pattern="^[0-9]{0,6}(?:\.[0-9]{1,2})?$" autocomplete="off">
+                    </div>
+                    <div class="input-box">
+                        <input type="text" name="electrical_system" class="input-field" placeholder="Electrical System" pattern="^[0-9]{0,6}(?:\.[0-9]{1,2})?$" autocomplete="off">
+                    </div>
+                    <div class="input-submit">
+                        <input type="submit" value="Add Record" class="submit">
+                    </div>
+                </form>
+                <a href="{% url 'showtables' %}" class="button" target="_blank">Show Tables</a>
+            </div>
+        </section>
+
+        <section class="routes">
+            <div class="routes-box">
+                <div class="routes-header">
+                    <header>Record for Routes Table</header>
+                </div>
+                <form method="POST" class="create_form">
+                    {% csrf_token %}
+                    <input type="hidden" name="form_type" value="routes"> <!-- signifies what table the form is for -->
+                    <div class="input-box">
+                        <input type="text" name="route_id" class="input-field" placeholder="Route ID" required maxlength="8" autocomplete="off">
+                    </div>
+                    <div class="input-box">
+                        <input type="text" name="start_route" class="input-field" placeholder="Start Route" required maxlength="30" autocomplete="off"> 
+                    </div>
+                    <div class="input-box">
+                        <input type="text" name="end_route" class="input-field" placeholder="End Route" required maxlength="30" autocomplete="off">
+                    </div>
+                    <div class="input-box">
+                        <input type="text" name="route_length" class="input-field" placeholder="Route Length" pattern="^[0-9]{0,2}(?:\.[0-9]{1})?$" autocomplete="off">
+                    </div>
+                    <div class="input-box">
+                        <input type="text" name="base_fare" class="input-field" placeholder="Base Fare" required pattern="[0-9]{1,3}" autocomplete="off">
+                    </div>
+                    <div class="input-submit">
+                        <input type="submit" value="Add Record" class="submit">
+                    </div>
+                </form>
+                <a href="{% url 'showtables' %}" class="button" target="_blank">Show Tables</a>
+            </div>        
+        </section>
+
+        <section class="vehicles">
+            <div class="vehicles-box">
+                <div class="vehicles-header">
+                    <header>Record for Vehicles Table</header>
+                </div>
+                <form method="POST" class="create_form">
+                    {% csrf_token %}
+                    <input type="hidden" name="form_type" value="vehicles"> <!-- signifies what table the form is for -->
+                    <div class="input-box">
+                        <input type="text" name="plate_number" class="input-field" placeholder="Plate Number" required maxlength="8" autocomplete="off">
+                    </div>
+                    <div class="input-box">
+                        <select name="vehicle_type" class="input-field" required>
+                            <option value="Bus">Bus</option>
+                            <option value="PUJ">PUJ</option>
+                            <option value="UV">UV</option>
+                        </select>
+                    </div>
+                    <div class="input-box">
+                        <input type="text" name="manufacturer" class="input-field" placeholder="Manufacturer" required maxlength="30" autocomplete="off">
+                    </div>
+                    <div class="input-box">
+                        <select name="model" class="input-field" required>
+                            {% for row in components %}
+                            <option value="{{ row.0 }}">{{ row.0 }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="input-box">
+                        <input type="text" name="year" class="input-field" placeholder="Year" required pattern="[0-9]{4}" autocomplete="off">
+                    </div>
+                    <div class="input-box">
+                        <input type="text" name="revenue" class="input-field" placeholder="Revenue" required pattern="^[0-9]{0,6}(?:\.[0-9]{1,2})?$" autocomplete="off"> 
+                    </div>
+                    <div class="input-box">
+                        <select name="engine_condition" class="input-field" required>
+                            <option value="Good">Good</option>
+                            <option value="Bad">Bad</option>
+                        </select>
+                    </div>
+                    <div class="input-box">
+                        <input type="text" name="seat_capacity" class="input-field" placeholder="Seat Capacity" pattern="([0-9]{1,3})?" autocomplete="off">
+                    </div>
+                    <div class="input-box">
+                        <input type="text" name="operation_times" class="input-field" placeholder="Operation Times" required pattern="^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]-(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$" autocomplete="off">
+                    </div>
+                    <div class="input-box">
+                        <select name="operator_number" class="input-field" required>
+                            {% for row in operators %}
+                            <option value="{{ row.0 }}">{{ row.0 }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="input-box">
+                        <select name="route_id" class="input-field" required>
+                            {% for row in routes %}
+                            <option value="{{ row.0 }}">{{ row.0 }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="input-submit">
+                        <input type="submit" value="Add Record" class="submit">
+                    </div>
+                </form>
+                <a href="{% url 'showtables' %}" class="button" target="_blank">Show Tables</a>
+            </div>
+        </section>
+    </div>
+    {% if messages %}
+    <div id="messages">
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const messageElements = document.querySelectorAll('#messages .alert');
+            
+            // Automatically hide the message after 5 seconds
+            setTimeout(() => {
+                messageElements.forEach(element => {
+                    element.style.display = 'none';
+                });
+            }, 5000);
+        
+            // Allow manual dismissal
+            const closeButtons = document.querySelectorAll('#messages .close');
+            closeButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    this.parentElement.style.display = 'none';
+                });
+            });
+        });
+    </script>     
+</body>
+</html>
