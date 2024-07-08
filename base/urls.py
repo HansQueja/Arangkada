@@ -19,6 +19,7 @@ urlpatterns = [
 
     # crud without the r (CUD LMFAO)
     path('database/', views.database, name="database"),
-    path('create/', views.create, name="create")
-
+    path('create/', views.create, name="create"),
+    path('update/', views.update, name="update"),
+    path('delete/', views.delete, name="delete")
 ]
