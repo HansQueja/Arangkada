@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/delete.css') }}">
+<title>Delete a record</title>
+{% endblock %}
+
+{% block body %} 
+<div class="container">
+    <section class="delete-box">
+        <header>Delete a Record</header>
+        <div class="box-center">
+            <div class="operators_box">
+                <label for="delete_operators_record" class="table_lbl">Delete Operators Table Record:</label>
+                <form action='/crud/delete' method="POST" name="delete_operators_record">
+                    <input type="hidden" name="form_type" value="operators">
+                    <label for="operator_number" class="pk">Primary Key:</label>
+                    <select name="operator_number" class="input_field" required>
+                        {% for row in operators %}
+                        <option value="{{ row[0] }}">{{ row[0] }}</option>
+                        {% endfor %}
+                    </select>
+                    <br>
+                    <input type="submit" value="Delete Record" class="submit">
+    
+                </form>
+            </div>
+    
+            <div class="components_box">
+                <label for="delete_components_record" class="table_lbl">Delete Components Table Record:</label>
+                <form action='/crud/delete' method="POST" name="delete_components_record">
+                    <input type="hidden" name="form_type" value="components">
+                    <label for="model" class="pk">Primary Key:</label>
+                    <select name="model" class="input_field" required>
+                        {% for row in components %}
+                        <option value="{{ row[0] }}">{{ row[0] }}</option>
+                        {% endfor %}
+                    </select>
+                    <br>
+                    <input type="submit" value="Delete Record" class="submit">
+    
+                </form>
+            </div>
+    
+            <div class="routes_box">
+                <label for="delete_routes_record" class="table_lbl">Delete Routes Table Record:</label>
+                <form action='/crud/delete' method="POST" name="delete_routes_record">
+                    <input type="hidden" name="form_type" value="routes">
+                    <label for="route_id" class="pk">Primary Key:</label>
+                    <select name="route_id" class="input_field" required>
+                        {% for row in routes %}
+                        <option value="{{ row[0] }}">{{ row[0] }}</option>
+                        {% endfor %}
+                    </select>
+                    <br>
+                    <input type="submit" value="Delete Record" class="submit">
+    
+                </form>
+            </div>
+    
+            <div class="vehicles_box">
+                <label for="delete_vehicles_record" class="table_lbl">Delete Vehicles Table Record:</label>
+                <form action='/crud/delete' method="POST" name="delete_vehicles_record">
+                    <input type="hidden" name="form_type" value="vehicles">
+                    <label for="plate_number" class="pk">Primary Key:</label>
+                    <select name="plate_number" class="input_field" required>
+                        {% for row in vehicles %}
+                        <option value="{{ row[0] }}">{{ row[0] }}</option>
+                        {% endfor %}
+                    </select>
+                    <br>
+                    <input type="submit" value="Delete Record" class="submit">
+    
+                </form>
+            </div>
+        </div>
+        <a href="{{ url_for('show_tables') }}" class="button" target="_blank">Show Tables</a>
+    </section>
+</div>
+
+{% endblock %}
