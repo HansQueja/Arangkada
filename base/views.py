@@ -282,7 +282,8 @@ def create(request):
             if flag == -1:
                 messages.error(request, "The primary key you've entered is already in the database. Enter a unique model.")
                 return render(request, "create.html", {"vehicles": vehicles, "components": components, "operators": operators, "routes": routes, "name": name})
-            return redirect('create')
+            
+            messages.success(request, "Your record has been added to the database.")
 
         return render(request, "create.html", {"vehicles": vehicles, "components": components, "operators": operators, "routes": routes, "name": name})
     else:
@@ -300,7 +301,7 @@ def update(request):
             values = get_record(request, table)
 
             update_record(table, values)
-            return redirect('update')
+            messages.success(request, "Your choosen record has been updated with new values.")
 
         return render(request, "update.html", {"vehicles": vehicles, "components": components, "operators": operators, "routes": routes, "name": name})
     else:

@@ -29,7 +29,7 @@ a {
 
 .delete-box {
     background-color: rgb(243, 243, 243);
-    height: 90vh;
+    height: 80vh;
     width: 30vw;
     color: #252525;
     border-radius: 30px;
@@ -48,7 +48,6 @@ header {
     text-align: center;
     margin-bottom: 40px;
 }
-
 
 .operators_box, .components_box, .routes_box, .vehicles_box{
     margin-bottom: 50px;
@@ -80,4 +79,8 @@ select {
     background-color: #FFC100;
     font-weight: 700;
     box-shadow: 0px 5px 5px 0.6px rgba(0,0,0,0.5);
+}
+
+.alert-success {
+    background-color: #16bc1b;
 }
