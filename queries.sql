@@ -70,15 +70,15 @@ WHERE o.name_of_operator = "Haruki Murakami";
 
 -- Operators' number of operational units and total revenue
 
-SELECT o.operator_number, o.name_of_operator, o.no_of_operational_units, SUM(v.revenue) "Total revenue"
+SELECT o.operator_number, o.name_of_operator, o.no_of_operational_units, ROUND(SUM(v.revenue), 2) "Total revenue"
 FROM operators o
 JOIN vehicles v ON o.operator_number = v.operator_number
 GROUP BY o.operator_number
 ORDER BY "Total revenue" DESC;
 
 -- Total maintenance cost of vehicle compared to their revenue
-SELECT v.plate_number, v.revenue,  (c.brake_system + c.clutch + c.tires + c.battery + c.bearings + 
-     c.belt + c.fuel_filter + c.piston_ring + c.lights + c.body + c.electrical_system) "Total maintenance cost"
+SELECT v.plate_number, v.revenue,  ROUND((c.brake_system + c.clutch + c.tires + c.battery + c.bearings + 
+     c.belt + c.fuel_filter + c.piston_ring + c.lights + c.body + c.electrical_system), 2) "Total maintenance cost"
 FROM vehicles v
 JOIN components c ON c.model = v.model
 ORDER BY revenue DESC;     

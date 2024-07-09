@@ -18,6 +18,30 @@ placeholders = {
                 } #for placeholder where the tupled values go
                       #might separate these dicts in a diff function/make it global, if it would be used for other crud operations
 
+
+basic_queries = [
+    "SELECT * FROM routes ORDER BY route_length;", 
+    "SELECT * FROM routes ORDER BY start_route, end_route;",
+    "SELECT * FROM operators ORDER BY name_of_operator;"
+]
+
+moderate_queries = [
+    "SELECT start_route, COUNT(*) count FROM routes GROUP BY start_route HAVING count > 1 ORDER BY count DESC;",
+    "SELECT manufacturer, COUNT(*) count FROM vehicles GROUP BY manufacturer ORDER BY count DESC;",
+    "SELECT vehicle_type, COUNT(*) count FROM vehicles GROUP BY vehicle_type ORDER BY count DESC;",
+    "SELECT manufacturer, ROUND(AVG(revenue), 2) average_revenue FROM vehicles GROUP BY manufacturer ORDER BY average_revenue DESC;",
+    "SELECT vehicle_type, ROUND(AVG(revenue), 2) average_revenue FROM vehicles GROUP BY vehicle_type ORDER BY average_revenue DESC;",
+    "SELECT model, ROUND(AVG(revenue), 2) average_revenue FROM vehicles GROUP BY model ORDER BY average_revenue DESC;",
+    "SELECT vehicle_type, manufacturer, model, ROUND(AVG(revenue), 2) average_revenue FROM vehicles GROUP BY vehicle_type, manufacturer, model ORDER BY vehicle_type, manufacturer, model;",
+    "SELECT occupation, COUNT(*) count FROM operators GROUP BY occupation;"
+]
+
+complex_queries = [
+    "SELECT o.operator_number, o.name_of_operator, o.no_of_operational_units, ROUND(SUM(v.revenue), 2) 'Total revenue' FROM operators o JOIN vehicles v ON o.operator_number = v.operator_number GROUP BY o.operator_number ORDER BY 'Total revenue' DESC;",
+    "SELECT o.operator_number, r.route_id, r.start_route, r.end_route FROM operators o JOIN vehicles v ON v.operator_number = o.operator_number JOIN routes r ON r.route_id = v.route_id WHERE o.name_of_operator = (?);",
+    "SELECT v.plate_number, v.revenue,  ROUND((c.brake_system + c.clutch + c.tires + c.battery + c.bearings + c.belt + c.fuel_filter + c.piston_ring + c.lights + c.body + c.electrical_system), 2) 'Total maintenance cost' FROM vehicles v JOIN components c ON c.model = v.model ORDER BY revenue DESC;"
+]
+
 # for showtables()
 def get_tables():
 

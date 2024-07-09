@@ -21,7 +21,7 @@
 }
 
 .container{
-    margin-top: 40px;
+    margin-top: 20px;
     margin-bottom: 20px;
     scroll-snap-type: y mandatory;
     overflow-y: scroll;
@@ -91,27 +91,34 @@ td, th{
     margin-top: 8%;
 }
 
-.dropdown-form {    
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
 .dropdown-select {
-    padding: 20px;
+    padding: 15px;
     font-size: 16px;
     border: 1px solid #ccc;
     border-radius: 5px;
     margin-right: 10px;
     width: 50%;
     text-align: center;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.dropdown-select:hover, .dropdown-select:focus {
+    border-color: #80bdff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    outline: none;
+}
+
+.dropdown-select option {
+    padding: 10px;
 }
 
 .submit-button {
     background-color: #FFC100;
     color: #ffffff;
     border: none;
-    padding: 23px 35px;
+    padding: 16px 35px;
     font-size: 15px;
     font-weight: bolder;
     text-decoration: none;
@@ -122,4 +129,81 @@ td, th{
 
 .submit-button:hover {
     background-color: #d98c00;
+}
+
+
+#form-mod-2 {
+    display: none;
+    background-color: #f8f9fa;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+    width: 30%;
+    margin-left: 32%;
+}
+
+#form-mod-2 input[type="text"] {
+    width: 90%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+#form-mod-2 input[type="text"]:focus {
+    border-color: #80bdff;
+    outline: 0;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(128, 189, 255, 0.6);
+}
+
+#form-mod-2 input[type="text"]::placeholder {
+    color: #6c757d;
+}
+
+.cover-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: blur(5px);
+    pointer-events: none;
+    position: absolute;
+    z-index: 0;
+}
+
+.query-container {
+    display: flex; /* Enable Flexbox */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    height: 2vh; /* Adjust height as needed, 100vh centers the content vertically within the viewport */
+    padding: 20px; /* Add some padding */
+    background-color: #FFC100; /* Same background color as the "Run Query" button */
+    box-sizing: border-box; /* Ensure padding is included in the element's total width and height */
+    text-align: center; /* Center text within the child element */
+    border-radius: 5px; /* Match the button's border radius */
+    margin: 20px auto; /* Center the div within the parent container */
+    max-width: 80%; /* Optional: Limit the maximum width of the container */
+}
+
+.query-container-big {
+    display: flex; /* Enable Flexbox */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    height: 7vh; /* Adjust height as needed, 100vh centers the content vertically within the viewport */
+    padding: 20px; /* Add some padding */
+    background-color: #FFC100; /* Same background color as the "Run Query" button */
+    box-sizing: border-box; /* Ensure padding is included in the element's total width and height */
+    text-align: center; /* Center text within the child element */
+    border-radius: 5px; /* Match the button's border radius */
+    margin: 20px auto; /* Center the div within the parent container */
+    max-width: 80%; /* Optional: Limit the maximum width of the container */
+}
+
+.sql-query {
+    white-space: pre-wrap; /* Preserve whitespace and wrap text */
+    word-wrap: break-word; /* Allow text to break and wrap onto the next line */
+    overflow-wrap: break-word; /* Ensure long words also wrap properly */
+    color: #201e1e;
 }

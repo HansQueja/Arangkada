@@ -5,6 +5,7 @@ from django.contrib import messages
 from django.shortcuts import redirect
 
 from base.helper import get_tables, get_record, create_record, update_record, get_pk, delete_record
+from base.helper import basic_queries, moderate_queries, complex_queries
 
 import sqlite3
 
@@ -133,22 +134,22 @@ def basic(request):
             cur = conn.cursor()
 
             if 'route_length' == query:
-                cur.execute("SELECT * FROM routes ORDER BY route_length;")
+                cur.execute(basic_queries[0])
                 routes_length = cur.fetchall()
                 conn.close()
-                return render(request, "basic.html", {"routes_length": routes_length, "name":name})
+                return render(request, "basic.html", {"routes_length": routes_length, "name":name, "query":basic_queries[0]})
             
             if 'route_end' == query:
-                cur.execute("SELECT * FROM routes ORDER BY start_route, end_route;")
+                cur.execute(basic_queries[1])
                 routes_end = cur.fetchall()
                 conn.close()
-                return render(request, "basic.html", {"routes_end": routes_end, "name":name})
+                return render(request, "basic.html", {"routes_end": routes_end, "name":name, "query":basic_queries[1]})
             
             if 'operators' == query:
-                cur.execute("SELECT * FROM operators ORDER BY name_of_operator;")
+                cur.execute(basic_queries[2])
                 operators = cur.fetchall()
                 conn.close()
-                return render(request, "basic.html", {"operators": operators, "name":name})        
+                return render(request, "basic.html", {"operators": operators, "name":name, "query":basic_queries[2]})        
 
         return render(request, "basic.html", {"name":name})
 
@@ -167,52 +168,52 @@ def moderate(request):
             cur = conn.cursor()
 
             if 'mod-1' == query:
-                cur.execute("SELECT start_route, COUNT(*) count FROM routes GROUP BY start_route HAVING count > 1 ORDER BY count DESC;")
+                cur.execute(moderate_queries[0])
                 routes = cur.fetchall()
                 conn.close()
-                return render(request, "moderate.html", {"mod_1": routes, "name":name})
+                return render(request, "moderate.html", {"mod_1": routes, "name":name, "query":moderate_queries[0]})
             
             if 'mod-2' == query:
-                cur.execute("SELECT manufacturer, COUNT(*) count FROM vehicles GROUP BY manufacturer ORDER BY count DESC;")
+                cur.execute(moderate_queries[1])
                 vehicles = cur.fetchall()
                 conn.close()
-                return render(request, "moderate.html", {"mod_2": vehicles, "name":name})
+                return render(request, "moderate.html", {"mod_2": vehicles, "name":name, "query":moderate_queries[1]})
             
             if 'mod-3' == query:
-                cur.execute("SELECT vehicle_type, COUNT(*) count FROM vehicles GROUP BY vehicle_type ORDER BY count DESC;")
+                cur.execute(moderate_queries[2])
                 vehicles = cur.fetchall()
                 conn.close()
-                return render(request, "moderate.html", {"mod_3": vehicles, "name":name})    
+                return render(request, "moderate.html", {"mod_3": vehicles, "name":name, "query":moderate_queries[2]})    
 
             if 'mod-4' == query:
-                cur.execute("SELECT manufacturer, ROUND(AVG(revenue), 2) average_revenue FROM vehicles GROUP BY manufacturer ORDER BY average_revenue DESC;")
+                cur.execute(moderate_queries[3])
                 vehicles = cur.fetchall()
                 conn.close()
-                return render(request, "moderate.html", {"mod_4": vehicles, "name":name})     
+                return render(request, "moderate.html", {"mod_4": vehicles, "name":name, "query":moderate_queries[3]})     
             
             if 'mod-5' == query:
-                cur.execute("SELECT vehicle_type, ROUND(AVG(revenue), 2) average_revenue FROM vehicles GROUP BY vehicle_type ORDER BY average_revenue DESC;")
+                cur.execute(moderate_queries[4])
                 vehicles = cur.fetchall()
                 conn.close()
-                return render(request, "moderate.html", {"mod_5": vehicles, "name":name}) 
+                return render(request, "moderate.html", {"mod_5": vehicles, "name":name, "query":moderate_queries[4]}) 
             
             if 'mod-6' == query:
-                cur.execute("SELECT model, ROUND(AVG(revenue), 2) average_revenue FROM vehicles GROUP BY model ORDER BY average_revenue DESC;")
+                cur.execute(moderate_queries[5])
                 vehicles = cur.fetchall()
                 conn.close()
-                return render(request, "moderate.html", {"mod_6": vehicles, "name":name}) 
+                return render(request, "moderate.html", {"mod_6": vehicles, "name":name, "query":moderate_queries[5]}) 
             
             if 'mod-7' == query:
-                cur.execute("SELECT vehicle_type, manufacturer, model, ROUND(AVG(revenue), 2) average_revenue FROM vehicles GROUP BY vehicle_type, manufacturer, model ORDER BY vehicle_type, manufacturer, model;")
+                cur.execute(moderate_queries[6])
                 vehicles = cur.fetchall()
                 conn.close()
-                return render(request, "moderate.html", {"mod_7": vehicles, "name":name}) 
+                return render(request, "moderate.html", {"mod_7": vehicles, "name":name, "query":moderate_queries[6]}) 
             
             if 'mod-8' == query:
-                cur.execute("SELECT occupation, COUNT(*) count FROM operators GROUP BY occupation;")
+                cur.execute(moderate_queries[7])
                 operators = cur.fetchall()
                 conn.close()
-                return render(request, "moderate.html", {"mod_8": operators, "name":name}) 
+                return render(request, "moderate.html", {"mod_8": operators, "name":name, "query":moderate_queries[7]}) 
 
         return render(request, "moderate.html", {"name":name})
 
@@ -232,23 +233,23 @@ def complex(request):
             cur = conn.cursor()
 
             if 'mod-1' == query:
-                cur.execute("SELECT o.operator_number, o.name_of_operator, o.no_of_operational_units, ROUND(SUM(v.revenue), 2) 'Total revenue' FROM operators o JOIN vehicles v ON o.operator_number = v.operator_number GROUP BY o.operator_number ORDER BY 'Total revenue' DESC;")
+                cur.execute(complex_queries[0])
                 vehicles = cur.fetchall()
                 conn.close()
-                return render(request, "complex.html", {"mod_1": vehicles, "name":name})
+                return render(request, "complex.html", {"mod_1": vehicles, "name":name, "query":complex_queries[0]})
 
             if 'mod-2' == query:
                 operator_name = request.POST.get("operator_name")
-                cur.execute("SELECT o.operator_number, r.route_id, r.start_route, r.end_route FROM operators o JOIN vehicles v ON v.operator_number = o.operator_number JOIN routes r ON r.route_id = v.route_id WHERE o.name_of_operator = (?);", (operator_name,))
+                cur.execute(complex_queries[1], (operator_name,))
                 routes = cur.fetchall()
                 conn.close()
-                return render(request, "complex.html", {"mod_2": routes, "name":name, "operator_name":operator_name})
+                return render(request, "complex.html", {"mod_2": routes, "name":name, "operator_name":operator_name, "query":complex_queries[1]})
             
             if 'mod-3' == query:
-                cur.execute("SELECT v.plate_number, v.revenue,  ROUND((c.brake_system + c.clutch + c.tires + c.battery + c.bearings + c.belt + c.fuel_filter + c.piston_ring + c.lights + c.body + c.electrical_system), 2) 'Total maintenance cost' FROM vehicles v JOIN components c ON c.model = v.model ORDER BY revenue DESC;")
+                cur.execute(complex_queries[2])
                 vehicles = cur.fetchall()
                 conn.close()
-                return render(request, "complex.html", {"mod_3": vehicles, "name":name})    
+                return render(request, "complex.html", {"mod_3": vehicles, "name":name, "query":complex_queries[2]})    
 
 
         return render(request, "complex.html", {"name":name})
@@ -258,7 +259,13 @@ def complex(request):
 
 
 def database(request):
-    return render(request, "crud.html")
+    if 'user_id' in request.session:
+
+        name = request.session['first_name']
+
+        return render(request, "crud.html", {"name": name})
+    else:
+        return redirect('login') 
 
 
 def create(request):

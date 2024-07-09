@@ -11,121 +11,132 @@
     <link rel="stylesheet" href="{% static 'table.css' %}">
     <link rel="stylesheet" href="{% static 'main.css' %}">
 </head>
-<body> 
-    <div class="navbar">
-        <div class="icon">
-            <img src="{% static 'images/logo-5.png' %}" alt="Logo" class="logo-image">
+<body>
+    <div class="container">
+        <div class="navbar">
+            <div class="icon">
+                <img src="{% static 'images/logo-5.png' %}" alt="Logo" class="logo-image">
+            </div>
+            <div class="menu">
+                <ul>
+                    <li class="hovercolor">
+                        <a href="userprofile.html">
+                            <i class="fas fa-user"></i> Hello, {{ name }}
+                        </a>
+                    </li>
+                    <li class="hovercolor"><a href="{% url 'home' %}">HOME</a></li>
+                    <li><a href="{% url 'about' %}">ABOUT US</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropbtn">QUERIES</a>
+                        <div class="dropdown-content">
+                            <a href="{% url 'basic' %}">Basic Queries</a>
+                            <a href="{% url 'moderate' %}">Moderate Queries</a>
+                            <a href="{% url 'complex' %}">Complex Queries</a>
+                            <a href="{% url 'database' %}">Database Management</a>
+                        </div>
+                    </li>
+                    <li><a href="{% url 'logout' %}">LOGOUT</a></li>
+                </ul>
+            </div>
         </div>
-        <div class="menu">
-            <ul>
-                <li class="hovercolor">
-                    <a href="userprofile.html">
-                        <i class="fas fa-user"></i> Hello, {{ name }}
-                    </a>
-                </li>
-                <li class="hovercolor"><a href="{% url 'home' %}">HOME</a></li>
-                <li><a href="{% url 'about' %}">ABOUT US</a></li>
-                <li class="dropdown">
-                    <a href="#" class="dropbtn">QUERIES</a>
-                    <div class="dropdown-content">
-                        <a href="{% url 'basic' %}">Basic Queries</a>
-                        <a href="{% url 'moderate' %}">Moderate Queries</a>
-                        <a href="{% url 'complex' %}">Complex Queries</a>
-                        <a href="{% url 'database' %}">Database Management</a>
-                    </div>
-                </li>
-                <li><a href="{% url 'logout' %}">LOGOUT</a></li>
-            </ul>
+        
+        <div class="query-content">
+            <h1>Complex Queries</h1>
+            <form class="dropdown-form" method="POST">
+                {% csrf_token %}
+                <select name="options" id="options" class="dropdown-select">
+                    <option value="mod-1">Operators' number of operational units and total revenue</option>
+                    <option value="mod-2">Routes of a given Operator Name</option>
+                    <option value="mod-3">Total Maintenance Cost of Vehicle compared to their Revenue</option>
+                </select>
+                <input type="hidden" name="operator_name" id="hidden-operator-name">
+                <button type="submit" class="submit-button">Run Query</button>
+            </form>
+
+            <form id="form-mod-2" style="display: none;">
+                <input type="text" name="operator_name" id="operator-name-input" placeholder="Enter Operator Name" onchange="updateMainForm()">
+            </form>
         </div>
-    </div>
-    <div class="query-content">
-        <h1>Complex Queries</h1>
-        <form class="dropdown-form" method="POST">
-            {% csrf_token %}
-            <select name="options" id="options" class="dropdown-select">
-                <option value="mod-1">Operators' number of operational units and total revenue</option>
-                <option value="mod-2">Routes of a given Operator Name</option>
-                <option value="mod-3">Total Maintenance Cost of Vehicle compared to their Revenue</option>
-            </select>
-            <input type="hidden" name="operator_name" id="hidden-operator-name">
-            <button type="submit" class="submit-button">Run Query</button>
-        </form>
 
-        <form id="form-mod-2" style="display: none;">
-            <input type="text" name="operator_name" id="operator-name-input" placeholder="Enter Operator Name" onchange="updateMainForm()">
-        </form>
-    </div>
+        {% if mod_1 %}
+        <div class="container">
+            <section class="route">
+                <div class="title">Operators' Number of Operational Units and Total Revenue</div>
+                <div class="query-container-big">
+                    <h6 class="sql-query">Query: {{ query }}</h6>
+                </div>
+                <table> 
+                    <tr>
+                        <th>Operator Number</th>
+                        <th>Name of Operator</th>
+                        <th>No. of Operational Units</th>
+                        <th>Total Revenue</th>
+                    </tr>
+                    {% for row in mod_1 %}
+                    <tr>
+                        <td>{{ row.0 }}</td>
+                        <td>{{ row.1 }}</td>
+                        <td>{{ row.2 }}</td>
+                        <td>Php. {{ row.3 }}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </section>
+        </div>
+        {% endif %}
 
-    {% if mod_1 %}
-    <div class="container">
-        <section class="route">
-            <div class="title">Operators' Number of Operational Units and Total Revenue</div>
-            <table> 
-                <tr>
-                    <th>Operator Number</th>
-                    <th>Name of Operator</th>
-                    <th>No. of Operational Units</th>
-                    <th>Total Revenue</th>
-                </tr>
-                {% for row in mod_1 %}
-                <tr>
-                    <td>{{ row.0 }}</td>
-                    <td>{{ row.1 }}</td>
-                    <td>{{ row.2 }}</td>
-                    <td>Php. {{ row.3 }}</td>
-                </tr>
-                {% endfor %}
-            </table>
-        </section>
-    </div>
-    {% endif %}
+        {% if mod_2 %}
+        <div class="container">
+            <section class="vehicle">
+                <div class="title">Routes of a Given Operator Name: {{ operator_name }}</div>
+                <div class="query-container-big">
+                    <h6 class="sql-query">Query: {{ query }}</h6>
+                </div>
+                <table> 
+                    <tr>
+                        <th>Operator Number</th>
+                        <th>Route ID</th>   
+                        <th>Start Route</th>
+                        <th>End Route</th>   
+                    </tr>
+                    {% for row in mod_2 %}
+                    <tr>
+                        <td>{{ row.0 }}</td>
+                        <td>{{ row.1 }}</td>
+                        <td>{{ row.2 }}</td>
+                        <td>{{ row.3 }}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </section>
+        </div>
+        {% endif %}
 
-    {% if mod_2 %}
-    <div class="container">
-        <section class="vehicle">
-            <div class="title">Routes of a Given Operator Name: {{ operator_name }}</div>
-            <table> 
-                <tr>
-                    <th>Operator Number</th>
-                    <th>Route ID</th>   
-                    <th>Start Route</th>
-                    <th>End Route</th>   
-                </tr>
-                {% for row in mod_2 %}
-                <tr>
-                    <td>{{ row.0 }}</td>
-                    <td>{{ row.1 }}</td>
-                    <td>{{ row.2 }}</td>
-                    <td>{{ row.3 }}</td>
-                </tr>
-                {% endfor %}
-            </table>
-        </section>
+        {% if mod_3 %}
+        <div class="container">
+            <section class="vehicle">
+                <div class="title">Total Maintenance Cost of Vehicle compared to their Revenue</div>
+                <div class="query-container-big">
+                    <h6 class="sql-query">Query: {{ query }}</h6>
+                </div>
+                <table> 
+                    <tr>
+                        <th>Plate Number</th>
+                        <th>Revenue</th>
+                        <th>Total Maintenance Cost</th>
+                    </tr>
+                    {% for row in mod_3 %}
+                    <tr>
+                        <td>{{ row.0 }}</td>
+                        <td>Php. {{ row.1 }}</td>
+                        <td>Php. {{ row.2 }}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </section>
+        </div>
+        {% endif %}
     </div>
-    {% endif %}
-
-    {% if mod_3 %}
-    <div class="container">
-        <section class="vehicle">
-            <div class="title">Total Maintenance Cost of Vehicle compared to their Revenue</div>
-            <table> 
-                <tr>
-                    <th>Plate Number</th>
-                    <th>Revenue</th>
-                    <th>Total Maintenance Cost</th>
-                </tr>
-                {% for row in mod_3 %}
-                <tr>
-                    <td>{{ row.0 }}</td>
-                    <td>Php. {{ row.1 }}</td>
-                    <td>Php. {{ row.2 }}</td>
-                </tr>
-                {% endfor %}
-            </table>
-        </section>
-    </div>
-    {% endif %}
-
     <script>
         function showForm() {
             var select = document.getElementById("options");
