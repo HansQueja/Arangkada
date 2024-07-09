@@ -47,6 +47,7 @@
         <form class="dropdown-form" method="POST">
             {% csrf_token %}
             <select name="options" id="options" class="dropdown-select">
+                <option value="" disabled selected>Select your option</option>
                 <option value="route_length">Display Routes according to their Length</option>
                 <option value="route_end">Display Routes according to Start and End Points</option>
                 <option value="operators">Display Operators Alphabetically</option>

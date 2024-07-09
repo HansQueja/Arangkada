@@ -45,13 +45,14 @@
         <form class="dropdown-form" method="POST">
             {% csrf_token %}
             <select name="options" id="options" class="dropdown-select">
-                <option value="mod-1">Group Routes by their starting point, ordered by most number of same starting point</option>
-                <option value="mod-2">Vehicle Count by manufacturer</option>
-                <option value="mod-3">Vehicle Count by Vehicle type</option>
-                <option value="mod-4">Vehicles Average Revenue by Manufacturer</option>
-                <option value="mod-5">Vehicles Average Revenue of by Vehicle Type</option>
-                <option value="mod-6">Vehicles Average Revenue of by Model</option>
-                <option value="mod-7">Vehicles Average Revenue, by Vehicle Type and Manufacturer and Model</option>
+                <option value="" disabled selected>Select your option</option>
+                <option value="mod-1">Group routes by their starting point, ordered by most number of same starting point</option>
+                <option value="mod-2">Group vehicle count by manufacturer, ordered by decreasing count</option>
+                <option value="mod-3">Group vehicle count by manufacturer, ordered by decreasing count</option>
+                <option value="mod-4">Group vehicles average revenue by manufacturer, ordered by decreasing average revenue</option>
+                <option value="mod-5">Group vehicles average revenue by vehicle type, ordered by decreasing average revenue</option>
+                <option value="mod-6">Group vehicles average revenue by model, ordered by decreasing average revenue</option>
+                <option value="mod-7">Group vehicles average revenue by the vehicle's type, manufacturer, and model. Order them by their vehicle type, manufacturer, and model</option>
                 <option value="mod-8">Operators Count grouped by Occupation</option>
             </select>
             <button type="submit" class="submit-button">Run Query</button>
@@ -84,7 +85,7 @@
     {% if mod_2 %}
     <div class="container">
         <section class="vehicle">
-            <div class="title">Vehicle count by manufacturer</div>
+            <div class="title">Group vehicle count by manufacturer, ordered by decreasing count</div>
             <div class="query-container">
                 <h6 class="sql-query">Query: {{ query }}</h6>
             </div>
@@ -107,7 +108,7 @@
     {% if mod_3 %}
     <div class="container">
         <section class="vehicle">
-            <div class="title">Vehicle count by Vehicle type</div>
+            <div class="title">Group vehicle count by manufacturer, ordered by decreasing count</div>
             <div class="query-container">
                 <h6 class="sql-query">Query: {{ query }}</h6>
             </div>
@@ -130,7 +131,7 @@
     {% if mod_4 %}
     <div class="container">
         <section class="vehicle">
-            <div class="title">Vehicles average revenue by manufacturer</div>
+            <div class="title">Group vehicles average revenue by manufacturer, ordered by decreasing average revenue</div>
             <div class="query-container">
                 <h6 class="sql-query">Query: {{ query }}</h6>
             </div>
@@ -153,7 +154,7 @@
     {% if mod_5 %}
     <div class="container">
         <section class="vehicle">
-            <div class="title">Vehicles Average Revenue of by Vehicle Type</div>
+            <div class="title">Group vehicles average revenue by vehicle type, ordered by decreasing average revenue</div>
             <div class="query-container">
                 <h6 class="sql-query">Query: {{ query }}</h6>
             </div>
@@ -176,7 +177,7 @@
     {% if mod_6 %}
     <div class="container">
         <section class="vehicle">
-            <div class="title">Vehicles Average Revenue of by Model</div>
+            <div class="title">Group vehicles average revenue by model, ordered by decreasing average revenue</div>
             <div class="query-container">
                 <h6 class="sql-query">Query: {{ query }}</h6>
             </div>
@@ -199,7 +200,7 @@
     {% if mod_7 %}
     <div class="container">
         <section class="vehicle">
-            <div class="title">Vehicles Average Revenue of by Model</div>
+            <div class="title">Group vehicles average revenue by the vehicle's type, manufacturer, and model. Order them by their vehicle type, manufacturer, and model</div>
             <div class="query-container">
                 <h6 class="sql-query">Query: {{ query }}</h6>
             </div>
@@ -226,7 +227,7 @@
     {% if mod_8 %}
     <div class="container">
         <section class="route">
-            <div class="title">Operators Count grouped by Occupation</div>
+            <div class="title">Operators count grouped by occupation</div>
             <div class="query-container">
                 <h6 class="sql-query">Query: {{ query }}</h6>
             </div>

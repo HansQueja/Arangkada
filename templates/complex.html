@@ -47,9 +47,10 @@
             <form class="dropdown-form" method="POST">
                 {% csrf_token %}
                 <select name="options" id="options" class="dropdown-select">
-                    <option value="mod-1">Operators' number of operational units and total revenue</option>
-                    <option value="mod-2">Routes of a given Operator Name</option>
-                    <option value="mod-3">Total Maintenance Cost of Vehicle compared to their Revenue</option>
+                    <option value="" disabled selected>Select your option</option>
+                    <option value="mod-1">Display operators' number of operational units and total revenue, ordered by decreasing total revenue</option>
+                    <option value="mod-2">Display the route ID, start and end route of a given operator name</option>
+                    <option value="mod-3">Display the total maintenance cost of a vehicle with its plate number compared to their revenue, ordered by decreasing revenue.</option>
                 </select>
                 <input type="hidden" name="operator_name" id="hidden-operator-name">
                 <button type="submit" class="submit-button">Run Query</button>
@@ -63,7 +64,7 @@
         {% if mod_1 %}
         <div class="container">
             <section class="route">
-                <div class="title">Operators' Number of Operational Units and Total Revenue</div>
+                <div class="title">Display operators' number of operational units and total revenue, ordered by decreasing total revenue</div>
                 <div class="query-container-big">
                     <h6 class="sql-query">Query: {{ query }}</h6>
                 </div>
@@ -90,7 +91,7 @@
         {% if mod_2 %}
         <div class="container">
             <section class="vehicle">
-                <div class="title">Routes of a Given Operator Name: {{ operator_name }}</div>
+                <div class="title">Display the route ID, start and end route of a given operator name: {{ operator_name }}</div>
                 <div class="query-container-big">
                     <h6 class="sql-query">Query: {{ query }}</h6>
                 </div>
@@ -117,7 +118,7 @@
         {% if mod_3 %}
         <div class="container">
             <section class="vehicle">
-                <div class="title">Total Maintenance Cost of Vehicle compared to their Revenue</div>
+                <div class="title">Display the total maintenance cost of a vehicle with its plate number compared to their revenue, ordered by decreasing revenue.</div>
                 <div class="query-container-big">
                     <h6 class="sql-query">Query: {{ query }}</h6>
                 </div>
