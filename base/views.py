@@ -31,7 +31,7 @@ def userprofile(request):
         last_name = request.session['last_name']
         email = request.session['email']
         return render(request, 'userprofile.html', {"user_id": user_id, "first_name": first_name,
-                                                    "last_name": last_name, "email": email})
+                                                    "last_name": last_name, "email": email, "name":first_name})
     else:
         return redirect('login')
 
