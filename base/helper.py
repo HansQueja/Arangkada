@@ -38,7 +38,7 @@ moderate_queries = [
 
 complex_queries = [
     "SELECT o.operator_number, o.name_of_operator, o.no_of_operational_units, ROUND(SUM(v.revenue), 2) 'Total revenue' FROM operators o JOIN vehicles v ON o.operator_number = v.operator_number GROUP BY o.operator_number ORDER BY 'Total revenue' DESC;",
-    "SELECT o.operator_number, r.route_id, r.start_route, r.end_route FROM operators o JOIN vehicles v ON v.operator_number = o.operator_number JOIN routes r ON r.route_id = v.route_id WHERE o.name_of_operator = (?);",
+    "SELECT o.operator_number, o.name_of_operator, r.route_id, r.start_route, r.end_route FROM operators o JOIN vehicles v ON v.operator_number = o.operator_number JOIN routes r ON r.route_id = v.route_id WHERE o.name_of_operator = (?);",
     "SELECT v.plate_number, v.revenue,  ROUND((c.brake_system + c.clutch + c.tires + c.battery + c.bearings + c.belt + c.fuel_filter + c.piston_ring + c.lights + c.body + c.electrical_system), 2) 'Total maintenance cost' FROM vehicles v JOIN components c ON c.model = v.model ORDER BY revenue DESC;"
 ]
 
@@ -174,9 +174,11 @@ def delete_record(table, pk_value):
     conn.execute('PRAGMA foreign_keys = ON;')
     c = conn.cursor()
 
+    """
     query = f"DELETE FROM vehicles WHERE {primary_key[table]}=?"
     c.execute(query, (pk_value,))
     conn.commit()
+    """
     
     query = f"DELETE FROM {table} WHERE {primary_key[table]}=?"
     c.execute(query, (pk_value,))

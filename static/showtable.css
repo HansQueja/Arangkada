@@ -1,6 +1,6 @@
-* {
-    margin: 0;
-    padding: 0;
+*{
+  margin: 0;
+  padding: 0;
 }
 
 ::-webkit-scrollbar {
@@ -32,13 +32,12 @@ body{
     margin-top: 5%;
     scroll-snap-type: y mandatory;
     overflow-y: scroll;
-    height: 100vh;
-
+    height: calc(100vh - 70px);
 }
 
 section{
-    height: 100vh;
-    width: 75vw;
+    height: calc(100vh - 70px);
+    width: 80vw;
     scroll-snap-align: start;
     overflow:auto;
     margin: 0 auto;
@@ -50,7 +49,7 @@ section{
 
 table{
     margin: 20px auto;
-    min-width: 60vw;
+    min-width: 75vw;
     text-align: center;
 }
 
@@ -65,20 +64,10 @@ td, th{
 
 .vehicle{
     background-color: rgba(255, 255, 255, 0);
-    font-size: 0.45em;
+    font-size: 0.8em;
 }
 
-.components{
+.components .operator, .route{
     background-color: rgba(255, 255, 255, 0);
-    font-size: 0.5em;
-}
-
-.operator{
-    background-color: rgba(255, 255, 255, 0);
-    font-size: 0.5em;
-}
-
-.route{
-    background-color: rgba(255, 255, 255, 0);
-    font-size: 0.5em;
+    font-size: 1em;
 }
