@@ -319,7 +319,7 @@ def delete(request):
             pk = get_pk(request, table)
 
             delete_record(table, pk)
-            return redirect('delete')
+            messages.success(request, f"Your choosen record '{pk}' has been deleted from the database.")
 
         return render(request, "delete.html", {"vehicles": vehicles, "components": components, "operators": operators, "routes": routes, "name": name})
     else:

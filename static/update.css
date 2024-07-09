@@ -135,6 +135,16 @@ a {
     font-size: 0.9em;
 }
 
+#messages {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    width: 80%;
+    max-width: 600px;
+}
+
 .alert {
     padding: 15px;
     margin-bottom: 20px;
